@@ -1,0 +1,49 @@
+---
+interface Props {
+  image: {
+    src: string
+    alt: string
+    trimmingH?: number
+  }
+  class?: string
+}
+
+const { image, ...props } = Astro.props
+const trimmingH = `${image.trimmingH ? image.trimmingH * 100 : 50}%`
+---
+
+<div class:list={["card", props.class]}>
+  <figure class="card__figure">
+    <img src={image.src} alt={image.alt} />
+  </figure>
+  <div class="card__content">
+    <slot />
+  </div>
+</div>
+
+<style define:vars={{ trimmingH }}>
+  .card {
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16);
+  }
+
+  .card__content {
+    padding: 0 1rem;
+  }
+
+  /** 中央揃えで画像をトリミング */
+  .card__figure {
+    position: relative;
+    padding-top: var(--trimmingH);
+    margin: 0;
+  }
+  .card__figure img {
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform: translateY(-50%);
+  }
+</style>

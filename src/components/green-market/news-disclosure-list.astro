@@ -1,0 +1,23 @@
+---
+import { news } from "@/utility/dummy"
+import Disclosure from "@/components/disclosure/summary-and-details.svelte"
+
+const contents = news.map(n => ({
+  summary: [n.date, n.title],
+  details: n.details,
+}))
+---
+
+{
+  contents.map((content, i) => (
+    <Disclosure client:load content={content} id="gm-news" key={i} />
+  ))
+}
+
+<style>
+  .gm-news {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 20px 0;
+  }
+</style>

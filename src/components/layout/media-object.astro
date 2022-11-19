@@ -1,0 +1,51 @@
+---
+interface Props {
+  image: {
+    src: string
+    alt: string
+    ratioToContentW?: number
+  }
+  reverse?: boolean
+}
+
+const { image, reverse } = Astro.props
+const ratioToContentW = image.ratioToContentW ?? 0.5
+---
+
+<div class:list={["media", reverse ? "--reverse" : ""]}>
+  <figure class="media__figure">
+    <img src={image.src} alt={image.alt} />
+  </figure>
+  <div class="media__content">
+    <slot />
+  </div>
+</div>
+
+<style define:vars={{ ratioToContentW }}>
+  .media {
+    --breakpoint: 768px;
+
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 3%;
+  }
+  .media.--reverse {
+    flex-direction: row-reverse;
+  }
+
+  .media__content {
+    flex-basis: calc((var(--breakpoint) - 100%) * 999);
+    flex-grow: 1;
+  }
+
+  .media__figure {
+    margin: 0;
+    flex-basis: calc((var(--breakpoint) - 100%) * 999);
+    flex-grow: var(--ratioToContentW);
+  }
+  .media__figure img {
+    object-fit: cover;
+    width: 100%;
+  }
+</style>

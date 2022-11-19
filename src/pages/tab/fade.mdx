@@ -1,0 +1,14 @@
+---
+layout: '@/layouts/BaseLayout.astro'
+title: 'SlideCarousel'
+---
+
+import { categories } from "@/utility/dummy.ts"
+import LinkListTab from "@/components/tab/link-list-tab.svelte"
+
+export const tabContents = {
+  title: "商品カテゴリー",
+  items: categories,
+}
+
+<LinkListTab client:load contents={tabContents} />
