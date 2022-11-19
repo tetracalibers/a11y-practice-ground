@@ -9,7 +9,7 @@
   <figure class="gm-product-link__inner">
     <img
       class="gm-product-link__image"
-      src={`/images/${product.img_name}`}
+      src={`/a11y-practice-ground/images/${product.img_name}`}
       alt={product.img_alt}
     />
     <figcaption class="gm-product-link__caption">

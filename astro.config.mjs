@@ -22,5 +22,7 @@ export default defineConfig(
       },
     },
     integrations: [svelte(), mdx()],
+    site: "https://tetracalibers.github.io",
+    base: "/a11y-practice-ground",
   },
 )

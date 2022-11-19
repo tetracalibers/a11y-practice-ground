@@ -7,13 +7,11 @@ import CardLayout from "@/components/layout/card-layout.astro"
 import Card from "@/components/card.astro"
 import { cards } from "@/utility/dummy.ts"
 
-# Card Layout
-
 <CardLayout>
   {
     cards.map(card => (
       <Card
-        image={{ src: "/images/algorithm-datastructureLogo.jpg", alt: "" }}
+        image={{ src: "/a11y-practice-ground/images/algorithm-datastructureLogo.jpg", alt: "" }}
       >
         <h2>{card.title}</h2>
         <p>{card.content}</p>

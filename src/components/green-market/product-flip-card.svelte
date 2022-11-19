@@ -9,7 +9,7 @@
   <figure class="flip__origin">
     <img
       class="flip__front flip__image"
-      src={`/images/${product.img_name}`}
+      src={`/a11y-practice-ground/images/${product.img_name}`}
       alt={product.img_alt}
     />
     <figcaption class="flip__back flip__content">

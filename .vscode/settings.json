@@ -1,0 +1,5 @@
+{
+  "yaml.schemas": {
+    "https://json.schemastore.org/github-workflow.json": "file:///Users/tomixy/site-trace/a11y-practice-ground/.github/workflows/deploy.yml"
+  }
+}
