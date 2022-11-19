@@ -47,6 +47,7 @@
     flex-grow: 0;
     flex-shrink: 0;
     flex-basis: 100%;
+    perspective: 1000px;
   }
 
   .carousel-slide__item.--current {

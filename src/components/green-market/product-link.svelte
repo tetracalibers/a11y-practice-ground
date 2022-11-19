@@ -38,6 +38,7 @@
 
   .gm-product-link__image {
     border-radius: 10px;
+    width: 100%;
     height: auto;
   }
 
