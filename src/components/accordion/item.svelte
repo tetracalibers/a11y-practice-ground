@@ -7,7 +7,7 @@
   const Heading = `h${headingLevel}` as any
 
   const onClickSummary = () => {
-    openedIdx.set(idx)
+    idx === $openedIdx ? openedIdx.set(-1) : openedIdx.set(idx)
   }
 </script>
 
