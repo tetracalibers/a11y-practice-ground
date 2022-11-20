@@ -62,12 +62,14 @@
   }
 
   .FAQ-Answer {
-    transition-property: all;
-    transition-duration: 0.5s;
-    transition-timing-function: ease;
+    transition: margin-top 0.5s ease, margin-bottom 0.5s ease,
+      padding-top 0.5s ease, padding-bottom 0.5s ease, line-height 0.5s ease,
+      opacity 0.1s linear, visibility 0.1s linear;
     background: #f3f3f3;
     margin: 0 3% 3% 3%;
     padding: 3%;
+    opacity: 1;
+    visibility: visible;
     overflow: hidden;
   }
 
@@ -76,9 +78,8 @@
     margin-bottom: 0;
     padding-top: 0;
     padding-bottom: 0;
-    border-top: 0;
-    border-bottom: 0;
     line-height: 0;
     opacity: 0;
+    visibility: hidden;
   }
 </style>
