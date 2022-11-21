@@ -83,8 +83,10 @@ export class DropdownNav {
 
   setFocusToNextOf = (menuitem: HTMLElement) => {
     const idx = this.menuitems.indexOf(menuitem)
-    if (idx === -1 || idx === this.menuitems.length - 1) return
-    this.setFocusTo(this.menuitems[idx + 1])
+    if (idx === -1) return
+    let nextIdx = idx + 1
+    if (idx === this.menuitems.length - 1) nextIdx = 0
+    this.setFocusTo(this.menuitems[nextIdx])
   }
 
   openSubmenu = (expandableMenuitem: HTMLElement) => {
@@ -109,6 +111,12 @@ export class DropdownNav {
         this.isExpandable(menuitem)
           ? this.openSubmenu(menuitem)
           : this.activateMenuitem(menuitem)
+        break
+      case "Down":
+      case "ArrowDown":
+        this.isExpandable(menuitem)
+          ? this.openSubmenu(menuitem)
+          : this.setFocusToNextOf(menuitem)
         break
       default:
         return

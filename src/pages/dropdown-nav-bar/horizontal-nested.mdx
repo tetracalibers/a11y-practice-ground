@@ -28,4 +28,12 @@ import Spec from '@/components/print/key-operation/Spec.astro'
       <Spec>開閉不可能なら、リンクをクリックして全てのメニューを閉じる</Spec>
     </SpecList>
   </Operation>
+  <Operation>
+    <Keys><Key>ArrowDown</Key></Keys>
+    <SpecList>
+      <Spec>開閉可能なら、メニューを開いて最初の項目に移動</Spec>
+      <Spec>開閉不可能なら、次のmenuitemに移動（最後のmenuitemにいる場合は、最初のmenuitemに移動</Spec>
+      <Spec>開閉不可能で最後のmenuitemにいる場合は、最初のmenuitemに移動</Spec>
+    </SpecList>
+  </Operation>
 </KeyMap>
