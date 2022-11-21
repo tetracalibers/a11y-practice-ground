@@ -8,10 +8,11 @@
     role="menuitem"
     aria-haspopup="true"
     aria-expanded="false"
+    aria-controls={`id-dropdown-nav-submenu-${title}`}
   >
     {title}
   </button>
-  <ul role="menu" aria-label={title}>
+  <ul role="menu" aria-label={title} id={`id-dropdown-nav-submenu-${title}`}>
     <slot />
   </ul>
 </li>
