@@ -5,5 +5,26 @@ title: 'News list Disclosure'
 
 import { news } from "@/utility/dummy";
 import NewsDisclosureList from "@/components/green-market/news-disclosure-list.astro"
+import KeyMap from '@/components/print/key-operation/KeyMap.astro'
+import Operation from '@/components/print/key-operation/Operation.astro'
+import Keys from '@/components/print/key-operation/Keys.astro'
+import Key from '@/components/print/key-operation/Key.astro'
+import SpecList from '@/components/print/key-operation/SpecList.astro'
+import Spec from '@/components/print/key-operation/Spec.astro'
 
 <NewsDisclosureList />
+
+<KeyMap>
+  <Operation>
+    <Keys><Key>Enter</Key></Keys>
+    <SpecList>
+      <Spec>開閉</Spec>
+    </SpecList>
+  </Operation>
+  <Operation>
+    <Keys><Key>Space</Key></Keys>
+    <SpecList>
+      <Spec>開閉</Spec>
+    </SpecList>
+  </Operation>
+</KeyMap>
