@@ -5,7 +5,96 @@ title: 'Simple Tree'
 
 import SimpleTree from "@/components/tree-nav/index.svelte"
 import Centering from "@/layouts/Centering.astro"
+import KeyMap from '@/components/print/key-operation/KeyMap.astro'
+import Operation from '@/components/print/key-operation/Operation.astro'
+import Keys from '@/components/print/key-operation/Keys.astro'
+import Key from '@/components/print/key-operation/Key.astro'
+import SpecList from '@/components/print/key-operation/SpecList.astro'
+import Spec from '@/components/print/key-operation/Spec.astro'
 
 <Centering>
   <SimpleTree client:load />
 </Centering>
+
+<KeyMap>
+  <Operation>
+    <Keys><Key>Enter</Key></Keys>
+    <SpecList>
+      <Spec>開閉可能なら、開閉</Spec>
+      <Spec>開閉不可能なら、デフォルトアクション</Spec>
+    </SpecList>
+  </Operation>
+  <Operation>
+    <Keys><Key>Space</Key></Keys>
+    <SpecList>
+      <Spec>開閉可能なら、開閉</Spec>
+      <Spec>開閉不可能なら、デフォルトアクション</Spec>
+    </SpecList>
+  </Operation>
+  <Operation>
+    <Keys><Key>Tab</Key></Keys>
+    <SpecList>
+      <Spec>次のfocus可能な要素に移動（treeに出入り）</Spec>
+      <Spec>Tree内では、最初のtreeitemのみTabでのfocus可能とする</Spec>
+    </SpecList>
+  </Operation>
+  <Operation>
+    <Keys>
+      <Key>Shift</Key>
+      <Key>Tab</Key>
+    </Keys>
+    <SpecList>
+      <Spec>前のfocus可能な要素に移動（treeに出入り）</Spec>
+    </SpecList>
+  </Operation>
+  <Operation>
+    <Keys><Key>ArrowRight</Key></Keys>
+    <SpecList>
+      <Spec>閉じているなら開く</Spec>
+      <Spec>開いているなら最初の子に移動</Spec>
+    </SpecList>
+  </Operation>
+  <Operation>
+    <Keys><Key>ArrowLeft</Key></Keys>
+    <SpecList>
+      <Spec>開いているなら閉じる</Spec>
+      <Spec>開いているsubTree内にいるなら親に移動</Spec>
+    </SpecList>
+  </Operation>
+  <Operation>
+    <Keys><Key>ArrowDown</Key></Keys>
+    <SpecList>
+      <Spec>見えているtreeitemのうち、直後のtreeitemに移動</Spec>
+    </SpecList>
+  </Operation>
+  <Operation>
+    <Keys><Key>ArrowUp</Key></Keys>
+    <SpecList>
+      <Spec>見えているtreeitemのうち、直前のtreeitemに移動</Spec>
+    </SpecList>
+  </Operation>
+  <Operation>
+    <Keys><Key>Home</Key></Keys>
+    <SpecList>
+      <Spec>見えているtreeitemのうち、最初のtreeitemに移動</Spec>
+    </SpecList>
+  </Operation>
+  <Operation>
+    <Keys><Key>End</Key></Keys>
+    <SpecList>
+      <Spec>見えているtreeitemのうち、最後のtreeitemに移動</Spec>
+    </SpecList>
+  </Operation>
+  <Operation>
+    <Keys><Key>*</Key></Keys>
+    <SpecList>
+      <Spec>同階層の兄弟をすべて開く</Spec>
+    </SpecList>
+  </Operation>
+  <Operation>
+    <Keys><Key>その他の文字</Key></Keys>
+    <SpecList>
+      <Spec>その文字から始まるテキストを持つ、次のtreeitemに移動</Spec>
+    </SpecList>
+  </Operation>
+</KeyMap>
