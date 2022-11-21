@@ -3,6 +3,69 @@ layout: '@/layouts/BaseLayout.astro'
 title: 'FAQ Accordion'
 ---
 
+import KeyMap from '@/components/print/key-operation/KeyMap.astro'
+import Operation from '@/components/print/key-operation/Operation.astro'
+import Keys from '@/components/print/key-operation/Keys.astro'
+import Key from '@/components/print/key-operation/Key.astro'
+import SpecList from '@/components/print/key-operation/SpecList.astro'
+import Spec from '@/components/print/key-operation/Spec.astro'
+
 import FaqAccordion from '@/components/concept/happy-come/faq-accordion.svelte'
 
 <FaqAccordion client:load />
+
+<KeyMap>
+  <Operation>
+    <Keys><Key>Enter</Key></Keys>
+    <SpecList>
+      <Spec>開閉</Spec>
+    </SpecList>
+  </Operation>
+  <Operation>
+    <Keys><Key>Space</Key></Keys>
+    <SpecList>
+      <Spec>開閉</Spec>
+    </SpecList>
+  </Operation>
+  <Operation>
+    <Keys><Key>Tab</Key></Keys>
+    <SpecList>
+      <Spec>次のfocus可能な要素に移動</Spec>
+    </SpecList>
+  </Operation>
+  <Operation>
+    <Keys>
+      <Key>Shift</Key>
+      <Key>Tab</Key>
+    </Keys>
+    <SpecList>
+      <Spec>次のfocus可能な要素に移動</Spec>
+    </SpecList>
+  </Operation>
+  <Operation>
+    <Keys><Key>ArrowDown</Key></Keys>
+    <SpecList>
+      <Spec>次のAccordionヘッダに移動</Spec>
+      <Spec>最終ヘッダにいる場合は、最初のAccordionヘッダに移動</Spec>
+    </SpecList>
+  </Operation>
+  <Operation>
+    <Keys><Key>ArrowUp</Key></Keys>
+    <SpecList>
+      <Spec>次のAccordionヘッダに移動</Spec>
+      <Spec>最後のヘッダにいる場合は、最初のAccordionヘッダに移動</Spec>
+    </SpecList>
+  </Operation>
+  <Operation>
+    <Keys><Key>Home</Key></Keys>
+    <SpecList>
+      <Spec>最初のAccordionヘッダに移動</Spec>
+    </SpecList>
+  </Operation>
+  <Operation>
+    <Keys><Key>End</Key></Keys>
+    <SpecList>
+      <Spec>最後のAccordionヘッダに移動</Spec>
+    </SpecList>
+  </Operation>
+</KeyMap>
