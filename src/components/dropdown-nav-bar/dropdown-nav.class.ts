@@ -55,6 +55,26 @@ export class DropdownNav {
     })
   }
 
+  isVisible = (menuitem: HTMLElement) => {
+    if (this.isInSubmenu(menuitem)) {
+      const parent = this.getImmediateParentMenuitem(menuitem)
+      return parent && this.isExpanded(parent)
+    }
+    return true
+  }
+
+  getVisibleMenuitems = () => {
+    return this.menuitems.filter(item => this.isVisible(item))
+  }
+
+  getPrevVisible = (menuitem: HTMLElement) => {
+    const visibles = this.getVisibleMenuitems()
+    const idx = visibles.indexOf(menuitem)
+    if (idx === -1) return
+    const prevIdx = idx === 0 ? visibles.length - 1 : idx - 1
+    return visibles[prevIdx]
+  }
+
   // ul > li > menuitemという構成で、ulを取得
   getImmediateRoot = (menuitem: HTMLElement) => {
     const li = getParentEl(menuitem)
@@ -89,7 +109,14 @@ export class DropdownNav {
     this.setFocusTo(this.menuitems[nextIdx])
   }
 
-  openSubmenu = (expandableMenuitem: HTMLElement) => {
+  setFocusToPrevOf = (menuitem: HTMLElement) => {
+    const idx = this.menuitems.indexOf(menuitem)
+    if (idx === -1) return
+    const prevIdx = idx === 0 ? this.menuitems.length - 1 : idx - 1
+    this.setFocusTo(this.menuitems[prevIdx])
+  }
+
+  openSubmenuFocusFirst = (expandableMenuitem: HTMLElement) => {
     this.expand(expandableMenuitem)
     this.setFocusToNextOf(expandableMenuitem)
   }
@@ -109,14 +136,24 @@ export class DropdownNav {
       case " ":
       case "Enter":
         this.isExpandable(menuitem)
-          ? this.openSubmenu(menuitem)
+          ? this.openSubmenuFocusFirst(menuitem)
           : this.activateMenuitem(menuitem)
         break
       case "Down":
       case "ArrowDown":
         this.isExpandable(menuitem)
-          ? this.openSubmenu(menuitem)
+          ? this.openSubmenuFocusFirst(menuitem)
           : this.setFocusToNextOf(menuitem)
+        break
+      case "Up":
+      case "ArrowUp":
+        const prev = this.getPrevVisible(menuitem)
+        if (this.isExpandable(prev) && !this.isExpanded(prev)) {
+          this.expand(prev)
+          this.setFocusToPrevOf(menuitem)
+        } else {
+          this.setFocusTo(prev)
+        }
         break
       default:
         return
