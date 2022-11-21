@@ -10,7 +10,7 @@
     aria-expanded="false"
     aria-controls={`id-dropdown-nav-submenu-${title}`}
   >
-    {title}
+    ＋{title}
   </button>
   <ul role="menu" aria-label={title} id={`id-dropdown-nav-submenu-${title}`}>
     <slot />
@@ -18,6 +18,10 @@
 </li>
 
 <style>
+  [aria-expanded="false"] ~ ul {
+    display: none;
+  }
+
   li {
     padding-left: 2em;
   }
