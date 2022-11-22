@@ -1,6 +1,7 @@
 import {
   getChildrenArray,
   getFirstChildEl,
+  getLastChildEl,
   getParentEl,
   getPrevEl,
 } from "@/utility/dom"
@@ -34,7 +35,7 @@ export class DropdownNav {
   }
 
   isMenubarItem = (el: HTMLElement) => {
-    const owner = this.getImmediateRoot(el)
+    const owner = this.getCurrentMenu(el)
     return this.isRoot(owner)
   }
 
@@ -95,7 +96,7 @@ export class DropdownNav {
   }
 
   // ul > li > menuitemという構成で、ulを取得
-  getImmediateRoot = (menuitem: HTMLElement) => {
+  getCurrentMenu = (menuitem: HTMLElement) => {
     const li = getParentEl(menuitem)
     const ul = getParentEl(li)
     return ul
@@ -109,7 +110,7 @@ export class DropdownNav {
 
   // 直近の親となるmenuitem
   getImmediateParentMenuitem = (menuitem: HTMLElement) => {
-    const ul = this.getImmediateRoot(menuitem)
+    const ul = this.getCurrentMenu(menuitem)
     // ul[role="menubar"]なら、親となるmenuitemは存在しない
     if (this.isRoot(ul)) {
       return false
@@ -124,11 +125,20 @@ export class DropdownNav {
 
   getCurrentMenuFirst = (menuitem: HTMLElement) => {
     // ul
-    const currentMenu = this.getImmediateRoot(menuitem)
+    const currentMenu = this.getCurrentMenu(menuitem)
     // li[role="presentation"]
     const firstMenuitemWrapper = getFirstChildEl(currentMenu)
     // [role="menuitem"]
     return getFirstChildEl(firstMenuitemWrapper)
+  }
+
+  getCurrentMenuLast = (menuitem: HTMLElement) => {
+    // ul
+    const currentMenu = this.getCurrentMenu(menuitem)
+    // li[role="presentation"]
+    const lastMenuitemWrapper = getLastChildEl(currentMenu)
+    // [role="menuitem"]
+    return getFirstChildEl(lastMenuitemWrapper)
   }
 
   setFocusTo = (el: HTMLElement) => {
@@ -253,6 +263,14 @@ export class DropdownNav {
     return true
   }
 
+  onKeydownEnd = (target: HTMLElement) => {
+    if (!this.isMenuitem(target)) return false
+    const focusTarget = this.getCurrentMenuLast(target)
+    if (!focusTarget) return false
+    this.setFocusTo(focusTarget)
+    return true
+  }
+
   onKeydown = (e: KeyboardEvent) => {
     const target = e.target as HTMLElement
     const key = e.key
@@ -280,6 +298,9 @@ export class DropdownNav {
         return
       case "Home":
         this.onKeydownHome(target) && this.cleanupEvent(e)
+        return
+      case "End":
+        this.onKeydownEnd(target) && this.cleanupEvent(e)
         return
       default:
         return

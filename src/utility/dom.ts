@@ -14,3 +14,7 @@ export const getPrevEl = (el: HTMLElement) => {
 export const getFirstChildEl = (el: HTMLElement) => {
   return el.firstElementChild as HTMLElement
 }
+
+export const getLastChildEl = (el: HTMLElement) => {
+  return el.lastElementChild as HTMLElement
+}
