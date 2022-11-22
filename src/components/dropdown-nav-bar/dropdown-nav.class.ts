@@ -119,6 +119,7 @@ export class DropdownNav {
 
   setFocusTo = (el: HTMLElement) => {
     el?.focus()
+    return el
   }
 
   setFocusToNext = (collection: HTMLElement[], el: HTMLElement) => {
@@ -126,26 +127,30 @@ export class DropdownNav {
     if (idx === -1) return
     let nextIdx = idx + 1
     if (idx === collection.length - 1) nextIdx = 0
-    const next = collection[nextIdx]
-    this.setFocusTo(next)
-    return next
+    return this.setFocusTo(collection[nextIdx])
   }
 
   setFocusToNextMenuitemOf = (menuitem: HTMLElement) => {
-    const next = this.setFocusToNext(this.menuitems, menuitem)
-    return next
+    return this.setFocusToNext(this.menuitems, menuitem)
   }
 
   setFocusToNextMenubarItemOf = (menubarItem: HTMLElement) => {
-    const next = this.setFocusToNext(this.menubarItems, menubarItem)
-    return next
+    return this.setFocusToNext(this.menubarItems, menubarItem)
   }
 
-  setFocusToPrevOf = (menuitem: HTMLElement) => {
-    const idx = this.menuitems.indexOf(menuitem)
+  setFocusToPrev = (collection: HTMLElement[], el: HTMLElement) => {
+    const idx = collection.indexOf(el)
     if (idx === -1) return
-    const prevIdx = idx === 0 ? this.menuitems.length - 1 : idx - 1
-    this.setFocusTo(this.menuitems[prevIdx])
+    const prevIdx = idx === 0 ? collection.length - 1 : idx - 1
+    return this.setFocusTo(collection[prevIdx])
+  }
+
+  setFocusToPrevMenuitemOf = (menuitem: HTMLElement) => {
+    return this.setFocusToPrev(this.menuitems, menuitem)
+  }
+
+  setFocusToPrevMenubarItemOf = (menubarItem: HTMLElement) => {
+    return this.setFocusToPrev(this.menubarItems, menubarItem)
   }
 
   openSubmenuFocusFirst = (expandableMenuitem: HTMLElement) => {
@@ -184,7 +189,7 @@ export class DropdownNav {
     const prev = this.getPrevVisible(target)
     if (this.isExpandable(prev) && !this.isExpanded(prev)) {
       this.expand(prev)
-      this.setFocusToPrevOf(target)
+      this.setFocusToPrevMenuitemOf(target)
       return true
     }
     this.setFocusTo(prev)
@@ -204,6 +209,25 @@ export class DropdownNav {
     const root = this.getRootMenuitem(target)
     const next = this.setFocusToNextMenubarItemOf(root)
     this.isExpandable(next) && this.expand(next)
+    return true
+  }
+
+  onKeydownArrowLeft = (target: HTMLElement) => {
+    if (this.isMenubarItem(target)) {
+      this.setFocusToPrevMenubarItemOf(target)
+      return true
+    }
+    const parent = this.getImmediateParentMenuitem(target)
+    if (!parent) return false
+    if (this.isMenubarItem(parent)) {
+      this.collapseAll()
+      const root = this.getRootMenuitem(target)
+      const prev = this.setFocusToPrevMenubarItemOf(root)
+      this.isExpandable(prev) && this.expand(prev)
+      return true
+    }
+    this.collapse(parent)
+    this.setFocusTo(parent)
     return true
   }
 
@@ -227,6 +251,10 @@ export class DropdownNav {
       case "Right":
       case "ArrowRight":
         this.onKeydownArrowRight(target) && this.cleanupEvent(e)
+        return
+      case "Left":
+      case "ArrowLeft":
+        this.onKeydownArrowLeft(target) && this.cleanupEvent(e)
         return
       default:
         return

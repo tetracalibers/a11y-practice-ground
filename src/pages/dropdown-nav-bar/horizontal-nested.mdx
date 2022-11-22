@@ -47,9 +47,17 @@ import Spec from '@/components/print/key-operation/Spec.astro'
   <Operation>
     <Keys><Key>ArrowRight</Key></Keys>
     <SpecList>
-      <Spec>menubarにいる場合、隣のmenubar上itemに移動（末尾まで来たら最初に折り返し）</Spec>
+      <Spec>menubarにいる場合、直後のmenubar上itemに移動（末尾まで来たら最初に折り返し）</Spec>
       <Spec>開閉可能なら、メニューを開いて最初の項目に移動</Spec>
-      <Spec>開閉不可能なら、サブメニューと全ての親メニューを閉じ、隣のmenubar上itemに移動し、開く</Spec>
+      <Spec>開閉不可能なら、サブメニューと全ての親メニューを閉じ、直前のmenubar上itemに移動し、開く</Spec>
+    </SpecList>
+  </Operation>
+  <Operation>
+    <Keys><Key>ArrowLeft</Key></Keys>
+    <SpecList>
+      <Spec>menubarにいる場合、直前のmenubar上itemに移動（最初まで来たら最後に折り返し）</Spec>
+      <Spec>menubar直下でないサブメニュー内にいる場合、メニューを閉じて親に移動</Spec>
+      <Spec>menubar直下のサブメニュー内にいる場合、サブメニューと全ての親メニューを閉じ、直後のmenubar上itemに移動し、開く</Spec>
     </SpecList>
   </Operation>
 </KeyMap>
