@@ -36,12 +36,20 @@ import Spec from '@/components/print/key-operation/Spec.astro'
       <Spec>開閉不可能で最後のmenuitemにいる場合は、最初のmenuitemに移動</Spec>
     </SpecList>
   </Operation>
-    <Operation>
+  <Operation>
     <Keys><Key>ArrowUp</Key></Keys>
     <SpecList>
       <Spec>前のmenuitemが開閉可能なら、メニューを開いて最後の項目に移動</Spec>
       <Spec>前のmenuitemが開閉不可能なら、そこに移動</Spec>
       <Spec>前のmenuitemが開閉不可能で、最初のmenuitemなら、最後のmenuitemに移動</Spec>
+    </SpecList>
+  </Operation>
+  <Operation>
+    <Keys><Key>ArrowRight</Key></Keys>
+    <SpecList>
+      <Spec>menubarにいる場合、隣のmenubar上itemに移動（末尾まで来たら最初に折り返し）</Spec>
+      <Spec>開閉可能なら、メニューを開いて最初の項目に移動</Spec>
+      <Spec>開閉不可能なら、サブメニューと全ての親メニューを閉じ、隣のmenubar上itemに移動し、開く</Spec>
     </SpecList>
   </Operation>
 </KeyMap>

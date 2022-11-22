@@ -2,9 +2,14 @@ import { getChildrenArray, getParentEl, getPrevEl } from "@/utility/dom"
 
 export class DropdownNav {
   private menuitems: HTMLElement[]
+  private menubarItems: HTMLElement[]
 
   constructor(menubarEl: HTMLElement) {
     this.menuitems = getChildrenArray(menubarEl, '[role="menuitem"]')
+    this.menubarItems = getChildrenArray(
+      menubarEl,
+      ':scope > li > [role="menuitem"]',
+    )
   }
 
   isMenuitemHasSubmenu = (menuitem: HTMLElement) => {
@@ -21,6 +26,11 @@ export class DropdownNav {
 
   isMenuitem = (el: HTMLElement) => {
     return el.getAttribute("role") === "menuitem"
+  }
+
+  isMenubarItem = (el: HTMLElement) => {
+    const owner = this.getImmediateRoot(el)
+    return this.isRoot(owner)
   }
 
   isInSubmenu = (menuitem: HTMLElement) => {
@@ -86,6 +96,12 @@ export class DropdownNav {
     return ul
   }
 
+  getRootMenuitem = (menuitem: HTMLElement) => {
+    const parent = this.getImmediateParentMenuitem(menuitem)
+    if (!parent) return menuitem
+    return this.getRootMenuitem(parent)
+  }
+
   // 直近の親となるmenuitem
   getImmediateParentMenuitem = (menuitem: HTMLElement) => {
     const ul = this.getImmediateRoot(menuitem)
@@ -105,12 +121,24 @@ export class DropdownNav {
     el?.focus()
   }
 
-  setFocusToNextOf = (menuitem: HTMLElement) => {
-    const idx = this.menuitems.indexOf(menuitem)
+  setFocusToNext = (collection: HTMLElement[], el: HTMLElement) => {
+    const idx = collection.indexOf(el)
     if (idx === -1) return
     let nextIdx = idx + 1
-    if (idx === this.menuitems.length - 1) nextIdx = 0
-    this.setFocusTo(this.menuitems[nextIdx])
+    if (idx === collection.length - 1) nextIdx = 0
+    const next = collection[nextIdx]
+    this.setFocusTo(next)
+    return next
+  }
+
+  setFocusToNextMenuitemOf = (menuitem: HTMLElement) => {
+    const next = this.setFocusToNext(this.menuitems, menuitem)
+    return next
+  }
+
+  setFocusToNextMenubarItemOf = (menubarItem: HTMLElement) => {
+    const next = this.setFocusToNext(this.menubarItems, menubarItem)
+    return next
   }
 
   setFocusToPrevOf = (menuitem: HTMLElement) => {
@@ -122,7 +150,7 @@ export class DropdownNav {
 
   openSubmenuFocusFirst = (expandableMenuitem: HTMLElement) => {
     this.expand(expandableMenuitem)
-    this.setFocusToNextOf(expandableMenuitem)
+    this.setFocusToNextMenuitemOf(expandableMenuitem)
   }
 
   activateMenuitem = (menuitem: HTMLElement) => {
@@ -147,7 +175,7 @@ export class DropdownNav {
     if (!this.isMenuitem(target)) return false
     this.isExpandable(target)
       ? this.openSubmenuFocusFirst(target)
-      : this.setFocusToNextOf(target)
+      : this.setFocusToNextMenuitemOf(target)
     return true
   }
 
@@ -160,6 +188,22 @@ export class DropdownNav {
       return true
     }
     this.setFocusTo(prev)
+    return true
+  }
+
+  onKeydownArrowRight = (target: HTMLElement) => {
+    if (this.isMenubarItem(target)) {
+      this.setFocusToNextMenubarItemOf(target)
+      return true
+    }
+    if (this.isExpandable(target)) {
+      this.openSubmenuFocusFirst(target)
+      return true
+    }
+    this.collapseAll()
+    const root = this.getRootMenuitem(target)
+    const next = this.setFocusToNextMenubarItemOf(root)
+    this.isExpandable(next) && this.expand(next)
     return true
   }
 
@@ -179,6 +223,10 @@ export class DropdownNav {
       case "Up":
       case "ArrowUp":
         this.onKeydownArrowUp(target) && this.cleanupEvent(e)
+        return
+      case "Right":
+      case "ArrowRight":
+        this.onKeydownArrowRight(target) && this.cleanupEvent(e)
         return
       default:
         return
