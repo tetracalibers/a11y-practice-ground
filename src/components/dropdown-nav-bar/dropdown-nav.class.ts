@@ -1,3 +1,4 @@
+import { isPrintableChar } from "./../../utility/str"
 import {
   getChildrenArray,
   getFirstChildEl,
@@ -5,6 +6,7 @@ import {
   getParentEl,
   getPrevEl,
 } from "@/utility/dom"
+import { firstCharMatching } from "@/utility/str"
 
 export class DropdownNav {
   private menuitems: HTMLElement[]
@@ -177,6 +179,38 @@ export class DropdownNav {
     return this.setFocusToPrev(this.menubarItems, menubarItem)
   }
 
+  setFocusByFirstCharacter = (menuitem: HTMLElement, char: string) => {
+    const visibles = this.getVisibleMenuitems()
+    const match = firstCharMatching(char)
+    let matched: HTMLElement
+    // 指定されたmenuitemより後のmenuitemが検索対象
+    let startIdx = visibles.indexOf(menuitem) + 1
+    // 次のmenuitemがidx範囲を超えるようであれば、検索対象は最初から
+    if (startIdx > visibles.length) {
+      startIdx = 0
+    }
+    // startIdx以降を探す
+    let searchTargets = visibles.slice(startIdx)
+    for (const el of searchTargets) {
+      if (match(el.textContent)) {
+        matched = el
+        this.setFocusTo(matched)
+        return
+      }
+    }
+    // まだ見つかっていなければ、前半も探す
+    if (startIdx !== 0) {
+      searchTargets = visibles.slice(0, startIdx)
+      for (const el of searchTargets) {
+        if (match(el.textContent)) {
+          matched = el
+          this.setFocusTo(matched)
+          return
+        }
+      }
+    }
+  }
+
   openSubmenuFocusFirst = (expandableMenuitem: HTMLElement) => {
     this.expand(expandableMenuitem)
     this.setFocusToNextMenuitemOf(expandableMenuitem)
@@ -280,6 +314,12 @@ export class DropdownNav {
     return true
   }
 
+  onKeydownPrintableChar = (target: HTMLElement, char: string) => {
+    if (!this.isMenuitem(target)) return false
+    this.setFocusByFirstCharacter(target, char)
+    return true
+  }
+
   onKeydown = (e: KeyboardEvent) => {
     const target = e.target as HTMLElement
     const key = e.key
@@ -315,6 +355,9 @@ export class DropdownNav {
         this.onKeydownEscape(target) && this.cleanupEvent(e)
         return
       default:
+        isPrintableChar(key) &&
+          this.onKeydownPrintableChar(target, key) &&
+          this.cleanupEvent(e)
         return
     }
   }

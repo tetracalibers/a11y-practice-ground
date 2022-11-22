@@ -1,15 +1,5 @@
 import { getChildrenArray, getParentEl, getPrevEl } from "@/utility/dom"
-
-const firstCharMatching = (char: string) => {
-  char = char.toLowerCase()
-  return (str: string) => {
-    return str.trim()[0].toLowerCase() === char
-  }
-}
-
-const isPrintableChar = (str: string) => {
-  return str.length === 1 && str.match(/\S/)
-}
+import { firstCharMatching, isPrintableChar } from "@/utility/str"
 
 export class Tree {
   private treeitems: HTMLElement[]
