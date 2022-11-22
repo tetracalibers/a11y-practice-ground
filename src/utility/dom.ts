@@ -10,3 +10,7 @@ export const getParentEl = (el: HTMLElement) => {
 export const getPrevEl = (el: HTMLElement) => {
   return el.previousElementSibling as HTMLElement
 }
+
+export const getFirstChildEl = (el: HTMLElement) => {
+  return el.firstElementChild as HTMLElement
+}

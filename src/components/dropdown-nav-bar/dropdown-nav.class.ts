@@ -1,4 +1,9 @@
-import { getChildrenArray, getParentEl, getPrevEl } from "@/utility/dom"
+import {
+  getChildrenArray,
+  getFirstChildEl,
+  getParentEl,
+  getPrevEl,
+} from "@/utility/dom"
 
 export class DropdownNav {
   private menuitems: HTMLElement[]
@@ -117,6 +122,15 @@ export class DropdownNav {
     this.getImmediateParentMenuitem(ul)
   }
 
+  getCurrentMenuFirst = (menuitem: HTMLElement) => {
+    // ul
+    const currentMenu = this.getImmediateRoot(menuitem)
+    // li[role="presentation"]
+    const firstMenuitemWrapper = getFirstChildEl(currentMenu)
+    // [role="menuitem"]
+    return getFirstChildEl(firstMenuitemWrapper)
+  }
+
   setFocusTo = (el: HTMLElement) => {
     el?.focus()
     return el
@@ -231,6 +245,14 @@ export class DropdownNav {
     return true
   }
 
+  onKeydownHome = (target: HTMLElement) => {
+    if (!this.isMenuitem(target)) return false
+    const focusTarget = this.getCurrentMenuFirst(target)
+    if (!focusTarget) return false
+    this.setFocusTo(focusTarget)
+    return true
+  }
+
   onKeydown = (e: KeyboardEvent) => {
     const target = e.target as HTMLElement
     const key = e.key
@@ -255,6 +277,9 @@ export class DropdownNav {
       case "Left":
       case "ArrowLeft":
         this.onKeydownArrowLeft(target) && this.cleanupEvent(e)
+        return
+      case "Home":
+        this.onKeydownHome(target) && this.cleanupEvent(e)
         return
       default:
         return
