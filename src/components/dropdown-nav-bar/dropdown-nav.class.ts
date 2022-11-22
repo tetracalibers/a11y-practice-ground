@@ -271,6 +271,15 @@ export class DropdownNav {
     return true
   }
 
+  onKeydownEscape = (target: HTMLElement) => {
+    if (!this.isMenuitem(target)) return false
+    const parent = this.getImmediateParentMenuitem(target)
+    if (!parent || !this.isExpanded(parent)) return false
+    this.collapse(parent)
+    this.setFocusTo(parent)
+    return true
+  }
+
   onKeydown = (e: KeyboardEvent) => {
     const target = e.target as HTMLElement
     const key = e.key
@@ -301,6 +310,9 @@ export class DropdownNav {
         return
       case "End":
         this.onKeydownEnd(target) && this.cleanupEvent(e)
+        return
+      case "Escape":
+        this.onKeydownEscape(target) && this.cleanupEvent(e)
         return
       default:
         return
