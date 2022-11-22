@@ -8,14 +8,10 @@
 
   onMount(() => {
     const controller = new DropdownNav(menubarEl)
-    menubarEl.addEventListener("keydown", controller.onKeydownMenuitem, false)
+    menubarEl.addEventListener("keydown", controller.onKeydown, false)
 
     return () => {
-      menubarEl.removeEventListener(
-        "keydown",
-        controller.onKeydownMenuitem,
-        false,
-      )
+      menubarEl.removeEventListener("keydown", controller.onKeydown, false)
     }
   })
 </script>

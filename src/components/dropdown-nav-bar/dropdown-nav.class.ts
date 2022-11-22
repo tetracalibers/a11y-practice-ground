@@ -19,6 +19,10 @@ export class DropdownNav {
     return el.getAttribute("role") === "menu"
   }
 
+  isMenuitem = (el: HTMLElement) => {
+    return el.getAttribute("role") === "menuitem"
+  }
+
   isInSubmenu = (menuitem: HTMLElement) => {
     const parent = this.getImmediateParentMenuitem(menuitem)
     // 親がmenubar全体のrootなら、自分はsubmenu内ではない直下node
@@ -126,40 +130,58 @@ export class DropdownNav {
     this.collapseAll()
   }
 
-  onKeydownMenuitem = (e: KeyboardEvent) => {
-    const menuitem = e.target as HTMLElement
-    const key = e.key
+  cleanupEvent = (e: Event) => {
+    e.preventDefault()
+    e.stopPropagation()
+  }
 
-    if (menuitem.getAttribute("role") !== "menuitem") return
+  onKeydownEnter = (target: HTMLElement) => {
+    if (!this.isMenuitem(target)) return false
+    this.isExpandable(target)
+      ? this.openSubmenuFocusFirst(target)
+      : this.activateMenuitem(target)
+    return true
+  }
+
+  onKeydownArrowDown = (target: HTMLElement) => {
+    if (!this.isMenuitem(target)) return false
+    this.isExpandable(target)
+      ? this.openSubmenuFocusFirst(target)
+      : this.setFocusToNextOf(target)
+    return true
+  }
+
+  onKeydownArrowUp = (target: HTMLElement) => {
+    if (!this.isMenuitem(target)) return false
+    const prev = this.getPrevVisible(target)
+    if (this.isExpandable(prev) && !this.isExpanded(prev)) {
+      this.expand(prev)
+      this.setFocusToPrevOf(target)
+      return true
+    }
+    this.setFocusTo(prev)
+    return true
+  }
+
+  onKeydown = (e: KeyboardEvent) => {
+    const target = e.target as HTMLElement
+    const key = e.key
 
     switch (key) {
       case " ":
       case "Enter":
-        this.isExpandable(menuitem)
-          ? this.openSubmenuFocusFirst(menuitem)
-          : this.activateMenuitem(menuitem)
-        break
+        this.onKeydownEnter(target) && this.cleanupEvent(e)
+        return
       case "Down":
       case "ArrowDown":
-        this.isExpandable(menuitem)
-          ? this.openSubmenuFocusFirst(menuitem)
-          : this.setFocusToNextOf(menuitem)
-        break
+        this.onKeydownArrowDown(target) && this.cleanupEvent(e)
+        return
       case "Up":
       case "ArrowUp":
-        const prev = this.getPrevVisible(menuitem)
-        if (this.isExpandable(prev) && !this.isExpanded(prev)) {
-          this.expand(prev)
-          this.setFocusToPrevOf(menuitem)
-        } else {
-          this.setFocusTo(prev)
-        }
-        break
+        this.onKeydownArrowUp(target) && this.cleanupEvent(e)
+        return
       default:
         return
     }
-
-    e.preventDefault()
-    e.stopPropagation()
   }
 }
