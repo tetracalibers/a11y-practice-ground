@@ -21,3 +21,9 @@
     <slot />
   </ul>
 </nav>
+
+<style>
+  [role="menubar"] {
+    display: flex;
+  }
+</style>
