@@ -3,7 +3,6 @@ import {
   getChildrenArray,
   getFirstChildEl,
   getLastChildEl,
-  getNextEl,
   getParentEl,
   getPrevEl,
 } from "@/utility/dom"
@@ -12,6 +11,7 @@ import { firstCharMatching } from "@/utility/str"
 export class DropdownNav {
   private menuitems: HTMLElement[]
   private menubarItems: HTMLElement[]
+  private menus: HTMLElement[][]
 
   constructor(menubarEl: HTMLElement) {
     this.menuitems = getChildrenArray(menubarEl, '[role="menuitem"]')
@@ -19,24 +19,27 @@ export class DropdownNav {
       menubarEl,
       ':scope > li > [role="menuitem"]',
     )
+    this.menus = this.groupingMenuitem()
     // 最初のmenubarItemのみfocus可能に
     this.menubarItems[0].setAttribute("tabindex", "0")
-    // 深さを計測
+    // 深さを計測し、セット
     this.setupDepth()
   }
 
-  setupDepth = () => {
-    const menuIdxs = this.menubarItems.map(baritem => {
+  // 属するmenubarItemごとに分ける
+  groupingMenuitem = () => {
+    const rootIdxs = this.menubarItems.map(baritem => {
       return this.menuitems.indexOf(baritem)
     })
-
-    const menuitemsByRoot = menuIdxs.map((idx, i) => {
-      return i === menuIdxs.length - 1
+    return rootIdxs.map((idx, i) => {
+      return i === rootIdxs.length - 1
         ? this.menuitems.slice(idx)
-        : this.menuitems.slice(idx, menuIdxs[i + 1])
+        : this.menuitems.slice(idx, rootIdxs[i + 1])
     })
+  }
 
-    menuitemsByRoot.forEach(menuitems => {
+  setupDepth = () => {
+    this.menus.forEach(menuitems => {
       let depth = 0
       menuitems.forEach(menuitem => {
         if (this.isExpandable(menuitem)) {
