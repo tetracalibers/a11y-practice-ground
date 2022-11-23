@@ -85,7 +85,7 @@ export class DropdownNav {
 
   isMenubarItem = (el: HTMLElement) => {
     debugCallFn("isMenubarItem")
-    const owner = this.getCurrentMenu(el)
+    const owner = this.getImmediateParentMenu(el)
     return this.isRoot(owner)
   }
 
@@ -97,6 +97,13 @@ export class DropdownNav {
   isExpanded = (el: HTMLElement) => {
     debugCallFn("isExpanded")
     return el.getAttribute("aria-expanded") === "true"
+  }
+
+  findMenuitem = (el: HTMLElement) => {
+    const idx = this.menuitems.els.indexOf(el)
+    if (idx === -1) return null
+    const mi = this.menuitems.details[idx]
+    return mi
   }
 
   expand = (expandable: HTMLElement) => {
@@ -116,11 +123,9 @@ export class DropdownNav {
     })
   }
 
-  isVisible = (menuitem: HTMLElement) => {
+  isVisible = (el: HTMLElement) => {
     debugCallFn("isVisible")
-    const idx = this.menuitems.els.indexOf(menuitem)
-    if (idx === -1) return false
-    const { parent } = this.menuitems.details[idx]
+    const parent = this.getImmediateParentMenu(el)
     return this.isExpanded(parent)
   }
 
@@ -139,46 +144,40 @@ export class DropdownNav {
   }
 
   // ul > li > menuitemという構成で、ulを取得
-  getCurrentMenu = (menuitem: HTMLElement) => {
-    debugCallFn("getCurrentMenu")
-    const idx = this.menuitems.els.indexOf(menuitem)
-    if (idx === -1) return null
-    const { parent } = this.menuitems.details[idx]
-    return parent
+  getImmediateParentMenu = (el: HTMLElement) => {
+    debugCallFn("getImmediateParentMenu")
+    const mi = this.findMenuitem(el)
+    return mi.parent
   }
 
-  getRootMenuitem = (menuitem: HTMLElement) => {
+  getRootMenuitem = (el: HTMLElement) => {
     debugCallFn("getRootMenuitem")
-    const idx = this.menuitems.els.indexOf(menuitem)
-    if (idx === -1) return null
-    const { root } = this.menuitems.details[idx]
-    return root
+    const mi = this.findMenuitem(el)
+    return mi.root
   }
 
-  直近の親となるmenuitem
-  getImmediateParentMenuitem = (menuitem: HTMLElement) => {
+  // 直近の親となるmenuitem
+  getImmediateParentMenuitem = (miel: HTMLElement) => {
     debugCallFn("getImmediateParentMenuitem")
-    const idx = this.menuitems.els.indexOf(menuitem)
-    if (idx === -1) return null
-    const { parent } = this.menuitems.details[idx]
+    const parent = this.getImmediateParentMenu(miel)
     if (!parent) return null
     return getPrevEl(parent)
   }
 
-  getCurrentMenuFirst = (menuitem: HTMLElement) => {
-    debugCallFn("getCurrentMenuFirst")
+  getImmediateParentMenuFirst = (menuitem: HTMLElement) => {
+    debugCallFn("getImmediateParentMenuFirst")
     // ul
-    const currentMenu = this.getCurrentMenu(menuitem)
+    const currentMenu = this.getImmediateParentMenu(menuitem)
     // li[role="presentation"]
     const firstMenuitemWrapper = getFirstChildEl(currentMenu)
     // [role="menuitem"]
     return getFirstChildEl(firstMenuitemWrapper)
   }
 
-  getCurrentMenuLast = (menuitem: HTMLElement) => {
-    debugCallFn("getCurrentMenuLast")
+  getImmediateParentMenuLast = (menuitem: HTMLElement) => {
+    debugCallFn("getImmediateParentMenuLast")
     // ul
-    const currentMenu = this.getCurrentMenu(menuitem)
+    const currentMenu = this.getImmediateParentMenu(menuitem)
     // li[role="presentation"]
     const lastMenuitemWrapper = getLastChildEl(currentMenu)
     // [role="menuitem"]
@@ -350,7 +349,7 @@ export class DropdownNav {
   onKeydownHome = (target: HTMLElement) => {
     debugCallFn("onKeydownHome")
     if (!this.isMenuitem(target)) return false
-    const focusTarget = this.getCurrentMenuFirst(target)
+    const focusTarget = this.getImmediateParentMenuFirst(target)
     if (!focusTarget) return false
     this.setFocusTo(focusTarget)
     return true
@@ -359,7 +358,7 @@ export class DropdownNav {
   onKeydownEnd = (target: HTMLElement) => {
     debugCallFn("onKeydownEnd")
     if (!this.isMenuitem(target)) return false
-    const focusTarget = this.getCurrentMenuLast(target)
+    const focusTarget = this.getImmediateParentMenuLast(target)
     if (!focusTarget) return false
     this.setFocusTo(focusTarget)
     return true
