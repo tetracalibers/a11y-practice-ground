@@ -23,7 +23,13 @@
 </nav>
 
 <style>
+  nav[aria-label] {
+    background: #333;
+  }
+
   [role="menubar"] {
     display: flex;
+    width: 100%;
+    justify-content: center;
   }
 </style>

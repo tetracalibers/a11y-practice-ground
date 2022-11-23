@@ -9,7 +9,10 @@
 </li>
 
 <style>
-  li {
-    padding-left: 2em;
+  [role="menuitem"] {
+    display: block;
+    text-decoration: none;
+    padding: 20px 35px;
+    color: #ccc;
   }
 </style>

@@ -7,6 +7,10 @@ export const getParentEl = (el: HTMLElement) => {
   return el.parentElement
 }
 
+export const getNextEl = (el: HTMLElement) => {
+  return el.nextElementSibling as HTMLElement
+}
+
 export const getPrevEl = (el: HTMLElement) => {
   return el.previousElementSibling as HTMLElement
 }

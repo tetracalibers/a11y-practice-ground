@@ -3,6 +3,7 @@ import {
   getChildrenArray,
   getFirstChildEl,
   getLastChildEl,
+  getNextEl,
   getParentEl,
   getPrevEl,
 } from "@/utility/dom"
@@ -20,6 +21,32 @@ export class DropdownNav {
     )
     // 最初のmenubarItemのみfocus可能に
     this.menubarItems[0].setAttribute("tabindex", "0")
+    // 深さを計測
+    this.setupDepth()
+  }
+
+  setupDepth = () => {
+    const menuIdxs = this.menubarItems.map(baritem => {
+      return this.menuitems.indexOf(baritem)
+    })
+
+    const menuitemsByRoot = menuIdxs.map((idx, i) => {
+      return i === menuIdxs.length - 1
+        ? this.menuitems.slice(idx)
+        : this.menuitems.slice(idx, menuIdxs[i + 1])
+    })
+
+    menuitemsByRoot.forEach(menuitems => {
+      let depth = 0
+      menuitems.forEach(menuitem => {
+        if (this.isExpandable(menuitem)) {
+          depth += 1
+        }
+        if (depth > 0) {
+          menuitem.setAttribute("data-depth", depth.toString())
+        }
+      })
+    })
   }
 
   isMenuitemHasSubmenu = (menuitem: HTMLElement) => {
