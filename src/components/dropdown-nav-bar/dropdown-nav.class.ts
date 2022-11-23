@@ -18,6 +18,8 @@ export class DropdownNav {
       menubarEl,
       ':scope > li > [role="menuitem"]',
     )
+    // 最初のmenubarItemのみfocus可能に
+    this.menubarItems[0].setAttribute("tabindex", "0")
   }
 
   isMenuitemHasSubmenu = (menuitem: HTMLElement) => {
@@ -104,7 +106,7 @@ export class DropdownNav {
     return ul
   }
 
-  getRootMenuitem = (menuitem: HTMLElement) => {
+  getRootMenuitem = (menuitem: HTMLElement): HTMLElement => {
     const parent = this.getImmediateParentMenuitem(menuitem)
     if (!parent) return menuitem
     return this.getRootMenuitem(parent)
@@ -346,11 +348,14 @@ export class DropdownNav {
         this.onKeydownArrowLeft(target) && this.cleanupEvent(e)
         return
       case "Home":
+      case "PageUp":
         this.onKeydownHome(target) && this.cleanupEvent(e)
         return
       case "End":
+      case "PageDown":
         this.onKeydownEnd(target) && this.cleanupEvent(e)
         return
+      case "Esc":
       case "Escape":
         this.onKeydownEscape(target) && this.cleanupEvent(e)
         return

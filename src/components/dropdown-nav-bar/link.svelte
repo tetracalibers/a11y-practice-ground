@@ -3,7 +3,7 @@
 </script>
 
 <li role="presentation">
-  <a role="menuitem" {href}>
+  <a role="menuitem" {href} tabindex="-1">
     <slot />
   </a>
 </li>

@@ -9,6 +9,7 @@
     aria-haspopup="true"
     aria-expanded="false"
     aria-controls={`id-dropdown-nav-submenu-${title}`}
+    tabindex="-1"
   >
     {title}
   </button>
