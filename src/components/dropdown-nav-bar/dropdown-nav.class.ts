@@ -3,23 +3,50 @@ import {
   getChildrenArray,
   getFirstChildEl,
   getLastChildEl,
-  getParentEl,
   getPrevEl,
 } from "@/utility/dom"
 import { firstCharMatching } from "@/utility/str"
+import { debugCallFn } from "@/utility/debug"
+
+interface Menuitem {
+  el: HTMLElement
+  depth: number
+  root: HTMLElement
+  parent: HTMLElement
+}
 
 export class DropdownNav {
-  private menuitems: HTMLElement[]
+  private menuitems: {
+    els: HTMLElement[]
+    details: Menuitem[]
+  }
   private menubarItems: HTMLElement[]
   private menus: HTMLElement[][]
 
   constructor(menubarEl: HTMLElement) {
-    this.menuitems = getChildrenArray(menubarEl, '[role="menuitem"]')
+    const els = getChildrenArray(menubarEl, '[role="menuitem"]')
     this.menubarItems = getChildrenArray(
       menubarEl,
       ':scope > li > [role="menuitem"]',
     )
-    this.menus = this.groupingMenuitem()
+    this.menus = this.groupingMenuitem(els)
+
+    const details = this.menus.flatMap((menuitems, i) => {
+      const root = this.menus[i][0]
+      let depth = 0
+      let parent = root
+      return menuitems.map(menuitem => {
+        let result = { el: menuitem, depth, root, parent }
+        if (this.isExpandable(menuitem)) {
+          result.depth = ++depth
+          parent = menuitem
+        }
+        return result
+      })
+    })
+
+    this.menuitems = { els, details }
+
     // 最初のmenubarItemのみfocus可能に
     this.menubarItems[0].setAttribute("tabindex", "0")
     // 深さを計測し、セット
@@ -27,101 +54,83 @@ export class DropdownNav {
   }
 
   // 属するmenubarItemごとに分ける
-  groupingMenuitem = () => {
+  groupingMenuitem = (menuitems: HTMLElement[]) => {
     const rootIdxs = this.menubarItems.map(baritem => {
-      return this.menuitems.indexOf(baritem)
+      return menuitems.indexOf(baritem)
     })
     return rootIdxs.map((idx, i) => {
       return i === rootIdxs.length - 1
-        ? this.menuitems.slice(idx)
-        : this.menuitems.slice(idx, rootIdxs[i + 1])
+        ? menuitems.slice(idx)
+        : menuitems.slice(idx, rootIdxs[i + 1])
     })
   }
 
   setupDepth = () => {
-    this.menus.forEach(menuitems => {
-      let depth = 0
-      menuitems.forEach(menuitem => {
-        if (this.isExpandable(menuitem)) {
-          depth += 1
-        }
-        if (depth > 0) {
-          menuitem.setAttribute("data-depth", depth.toString())
-        }
-      })
+    this.menuitems.details.forEach(({ el, depth }) => {
+      if (depth > 0) {
+        el.setAttribute("data-depth", depth.toString())
+      }
     })
   }
 
-  isMenuitemHasSubmenu = (menuitem: HTMLElement) => {
-    return menuitem.getAttribute("aria-haspopup") === "true"
-  }
-
   isRoot = (el: HTMLElement) => {
+    debugCallFn("isRoot")
     return el.getAttribute("role") === "menubar"
   }
 
-  isSubmenuRoot = (el: HTMLElement) => {
-    return el.getAttribute("role") === "menu"
-  }
-
   isMenuitem = (el: HTMLElement) => {
+    debugCallFn("isMenuitem")
     return el.getAttribute("role") === "menuitem"
   }
 
   isMenubarItem = (el: HTMLElement) => {
+    debugCallFn("isMenubarItem")
     const owner = this.getCurrentMenu(el)
     return this.isRoot(owner)
   }
 
-  isInSubmenu = (menuitem: HTMLElement) => {
-    const parent = this.getImmediateParentMenuitem(menuitem)
-    // 親がmenubar全体のrootなら、自分はsubmenu内ではない直下node
-    if (!parent || this.isRoot(parent)) {
-      return false
-    }
-    // 親であるmenuitemがsubmenuを持つなら、自分はそこに属する
-    if (this.isMenuitemHasSubmenu(parent)) {
-      return true
-    }
-    // まだtreeのrootにもsubtreeのrootにも達していなければ、さらに親を調べる
-    this.isInSubmenu(parent)
-  }
-
   isExpandable = (el: HTMLElement) => {
+    debugCallFn("isExpandable")
     return el.hasAttribute("aria-expanded")
   }
 
   isExpanded = (el: HTMLElement) => {
+    debugCallFn("isExpanded")
     return el.getAttribute("aria-expanded") === "true"
   }
 
   expand = (expandable: HTMLElement) => {
+    debugCallFn("expand")
     expandable.setAttribute("aria-expanded", "true")
   }
 
   collapse = (expanded: HTMLElement) => {
+    debugCallFn("collapse")
     expanded.setAttribute("aria-expanded", "false")
   }
 
   collapseAll = () => {
-    this.menuitems.forEach(el => {
+    debugCallFn("collapseAll")
+    this.menuitems.els.forEach(el => {
       if (this.isExpandable(el)) this.collapse(el)
     })
   }
 
   isVisible = (menuitem: HTMLElement) => {
-    if (this.isInSubmenu(menuitem)) {
-      const parent = this.getImmediateParentMenuitem(menuitem)
-      return parent && this.isExpanded(parent)
-    }
-    return true
+    debugCallFn("isVisible")
+    const idx = this.menuitems.els.indexOf(menuitem)
+    if (idx === -1) return false
+    const { parent } = this.menuitems.details[idx]
+    return this.isExpanded(parent)
   }
 
   getVisibleMenuitems = () => {
-    return this.menuitems.filter(item => this.isVisible(item))
+    debugCallFn("getVisibleMenuitems")
+    return this.menuitems.els.filter(el => this.isVisible(el))
   }
 
   getPrevVisible = (menuitem: HTMLElement) => {
+    debugCallFn("getPrevVisible")
     const visibles = this.getVisibleMenuitems()
     const idx = visibles.indexOf(menuitem)
     if (idx === -1) return
@@ -131,33 +140,33 @@ export class DropdownNav {
 
   // ul > li > menuitemという構成で、ulを取得
   getCurrentMenu = (menuitem: HTMLElement) => {
-    const li = getParentEl(menuitem)
-    const ul = getParentEl(li)
-    return ul
+    debugCallFn("getCurrentMenu")
+    const idx = this.menuitems.els.indexOf(menuitem)
+    if (idx === -1) return null
+    const { parent } = this.menuitems.details[idx]
+    return parent
   }
 
-  getRootMenuitem = (menuitem: HTMLElement): HTMLElement => {
-    const parent = this.getImmediateParentMenuitem(menuitem)
-    if (!parent) return menuitem
-    return this.getRootMenuitem(parent)
+  getRootMenuitem = (menuitem: HTMLElement) => {
+    debugCallFn("getRootMenuitem")
+    const idx = this.menuitems.els.indexOf(menuitem)
+    if (idx === -1) return null
+    const { root } = this.menuitems.details[idx]
+    return root
   }
 
-  // 直近の親となるmenuitem
+  直近の親となるmenuitem
   getImmediateParentMenuitem = (menuitem: HTMLElement) => {
-    const ul = this.getCurrentMenu(menuitem)
-    // ul[role="menubar"]なら、親となるmenuitemは存在しない
-    if (this.isRoot(ul)) {
-      return false
-    }
-    // ul[role="menu"]なら、その前のrole="menuitem"が直近
-    if (this.isSubmenuRoot(ul)) {
-      const prevEl = getPrevEl(ul)
-      return this.isMenuitemHasSubmenu(prevEl) ? prevEl : false
-    }
-    this.getImmediateParentMenuitem(ul)
+    debugCallFn("getImmediateParentMenuitem")
+    const idx = this.menuitems.els.indexOf(menuitem)
+    if (idx === -1) return null
+    const { parent } = this.menuitems.details[idx]
+    if (!parent) return null
+    return getPrevEl(parent)
   }
 
   getCurrentMenuFirst = (menuitem: HTMLElement) => {
+    debugCallFn("getCurrentMenuFirst")
     // ul
     const currentMenu = this.getCurrentMenu(menuitem)
     // li[role="presentation"]
@@ -167,6 +176,7 @@ export class DropdownNav {
   }
 
   getCurrentMenuLast = (menuitem: HTMLElement) => {
+    debugCallFn("getCurrentMenuLast")
     // ul
     const currentMenu = this.getCurrentMenu(menuitem)
     // li[role="presentation"]
@@ -176,11 +186,13 @@ export class DropdownNav {
   }
 
   setFocusTo = (el: HTMLElement) => {
+    debugCallFn("setFocusTo")
     el?.focus()
     return el
   }
 
   setFocusToNext = (collection: HTMLElement[], el: HTMLElement) => {
+    debugCallFn("setFocusToNext")
     const idx = collection.indexOf(el)
     if (idx === -1) return
     let nextIdx = idx + 1
@@ -189,14 +201,17 @@ export class DropdownNav {
   }
 
   setFocusToNextMenuitemOf = (menuitem: HTMLElement) => {
-    return this.setFocusToNext(this.menuitems, menuitem)
+    debugCallFn("setFocusToNextMenuitemOf")
+    return this.setFocusToNext(this.menuitems.els, menuitem)
   }
 
   setFocusToNextMenubarItemOf = (menubarItem: HTMLElement) => {
+    debugCallFn("setFocusToNextMenubarItemOf")
     return this.setFocusToNext(this.menubarItems, menubarItem)
   }
 
   setFocusToPrev = (collection: HTMLElement[], el: HTMLElement) => {
+    debugCallFn("setFocusToPrev")
     const idx = collection.indexOf(el)
     if (idx === -1) return
     const prevIdx = idx === 0 ? collection.length - 1 : idx - 1
@@ -204,14 +219,17 @@ export class DropdownNav {
   }
 
   setFocusToPrevMenuitemOf = (menuitem: HTMLElement) => {
-    return this.setFocusToPrev(this.menuitems, menuitem)
+    debugCallFn("setFocusToPrevMenuitemOf")
+    return this.setFocusToPrev(this.menuitems.els, menuitem)
   }
 
   setFocusToPrevMenubarItemOf = (menubarItem: HTMLElement) => {
+    debugCallFn("setFocusToPrevMenubarItemOf")
     return this.setFocusToPrev(this.menubarItems, menubarItem)
   }
 
   setFocusByFirstCharacter = (menuitem: HTMLElement, char: string) => {
+    debugCallFn("setFocusByFirstCharacter")
     const visibles = this.getVisibleMenuitems()
     const match = firstCharMatching(char)
     let matched: HTMLElement
@@ -244,21 +262,25 @@ export class DropdownNav {
   }
 
   openSubmenuFocusFirst = (expandableMenuitem: HTMLElement) => {
+    debugCallFn("openSubmenuFocusFirst")
     this.expand(expandableMenuitem)
     this.setFocusToNextMenuitemOf(expandableMenuitem)
   }
 
   activateMenuitem = (menuitem: HTMLElement) => {
+    debugCallFn("activateMenuitem")
     menuitem.click()
     this.collapseAll()
   }
 
   cleanupEvent = (e: Event) => {
+    debugCallFn("cleanupEvent")
     e.preventDefault()
     e.stopPropagation()
   }
 
   onKeydownEnter = (target: HTMLElement) => {
+    debugCallFn("onKeydownEnter")
     if (!this.isMenuitem(target)) return false
     this.isExpandable(target)
       ? this.openSubmenuFocusFirst(target)
@@ -267,6 +289,7 @@ export class DropdownNav {
   }
 
   onKeydownArrowDown = (target: HTMLElement) => {
+    debugCallFn("onKeydownArrowDown")
     if (!this.isMenuitem(target)) return false
     this.isExpandable(target)
       ? this.openSubmenuFocusFirst(target)
@@ -275,6 +298,7 @@ export class DropdownNav {
   }
 
   onKeydownArrowUp = (target: HTMLElement) => {
+    debugCallFn("onKeydownArrowUp")
     if (!this.isMenuitem(target)) return false
     const prev = this.getPrevVisible(target)
     if (this.isExpandable(prev) && !this.isExpanded(prev)) {
@@ -287,6 +311,7 @@ export class DropdownNav {
   }
 
   onKeydownArrowRight = (target: HTMLElement) => {
+    debugCallFn("onKeydownArrowRight")
     if (this.isMenubarItem(target)) {
       this.setFocusToNextMenubarItemOf(target)
       return true
@@ -303,6 +328,7 @@ export class DropdownNav {
   }
 
   onKeydownArrowLeft = (target: HTMLElement) => {
+    debugCallFn("onKeydownArrowLeft")
     if (this.isMenubarItem(target)) {
       this.setFocusToPrevMenubarItemOf(target)
       return true
@@ -322,6 +348,7 @@ export class DropdownNav {
   }
 
   onKeydownHome = (target: HTMLElement) => {
+    debugCallFn("onKeydownHome")
     if (!this.isMenuitem(target)) return false
     const focusTarget = this.getCurrentMenuFirst(target)
     if (!focusTarget) return false
@@ -330,6 +357,7 @@ export class DropdownNav {
   }
 
   onKeydownEnd = (target: HTMLElement) => {
+    debugCallFn("onKeydownEnd")
     if (!this.isMenuitem(target)) return false
     const focusTarget = this.getCurrentMenuLast(target)
     if (!focusTarget) return false
@@ -338,6 +366,7 @@ export class DropdownNav {
   }
 
   onKeydownEscape = (target: HTMLElement) => {
+    debugCallFn("onKeydownEscape")
     if (!this.isMenuitem(target)) return false
     const parent = this.getImmediateParentMenuitem(target)
     if (!parent || !this.isExpanded(parent)) return false
@@ -347,12 +376,14 @@ export class DropdownNav {
   }
 
   onKeydownPrintableChar = (target: HTMLElement, char: string) => {
+    debugCallFn("onKeydownPrintableChar")
     if (!this.isMenuitem(target)) return false
     this.setFocusByFirstCharacter(target, char)
     return true
   }
 
   onKeydown = (e: KeyboardEvent) => {
+    debugCallFn("onKeydown")
     const target = e.target as HTMLElement
     const key = e.key
 
