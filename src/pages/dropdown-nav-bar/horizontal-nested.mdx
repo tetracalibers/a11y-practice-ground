@@ -3,8 +3,7 @@ layout: '@/layouts/BaseLayout.astro'
 title: 'Horizontal Nested Dropdown Navigation Bar'
 ---
 
-import Constructor from '@/components/dropdown-nav-bar/constructor.astro'
-import DropdownNavBar from '@/components/concept/simple/horizontal-nested-dropdown-nav-bar.svelte'
+import DropdownNavBar from '@/components/concept/simple/horizontal-nested-dropdown-nav-bar.astro'
 import KeyMap from '@/components/print/key-operation/KeyMap.astro'
 import Operation from '@/components/print/key-operation/Operation.astro'
 import Keys from '@/components/print/key-operation/Keys.astro'
@@ -12,9 +11,7 @@ import Key from '@/components/print/key-operation/Key.astro'
 import SpecList from '@/components/print/key-operation/SpecList.astro'
 import Spec from '@/components/print/key-operation/Spec.astro'
 
-<Constructor>
-  <DropdownNavBar />
-</Constructor>
+<DropdownNavBar />
 
 <KeyMap>
   <Operation>

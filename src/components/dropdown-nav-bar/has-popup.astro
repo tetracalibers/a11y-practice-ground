@@ -1,6 +1,10 @@
-<script lang="ts">
-  export let title: string
-</script>
+---
+interface Props {
+  title: string
+}
+
+const { title } = Astro.props
+---
 
 <li role="presentation">
   <button
@@ -36,7 +40,7 @@
     position: relative;
   }
 
-  [aria-expanded] ~ ul {
+  [aria-expanded][data-depth] ~ ul {
     position: absolute;
     width: max-content;
     top: 100%;
@@ -44,15 +48,14 @@
     background: #28bfe7;
   }
 
-  :global([role="menuitem"][aria-expanded][data-depth]:not([data-depth="1"])
-      ~ ul) {
+  [role="menuitem"][aria-expanded][data-depth]:not([data-depth="1"] ~ ul) {
     top: 0;
     left: 100%;
     background: #66adf5;
     margin-left: 2px;
   }
 
-  :global([role="menuitem"][aria-expanded][data-depth] ~ ul [role="menuitem"]) {
+  [role="menuitem"][aria-expanded][data-depth] ~ ul [role="menuitem"] {
     color: #fff;
   }
 

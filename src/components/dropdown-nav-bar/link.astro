@@ -1,9 +1,13 @@
-<script lang="ts">
-  export let href: string
-</script>
+---
+interface Props {
+  href: string
+}
+
+const { href } = Astro.props
+---
 
 <li role="presentation">
-  <a role="menuitem" {href}>
+  <a role="menuitem" href={href}>
     <slot />
   </a>
 </li>

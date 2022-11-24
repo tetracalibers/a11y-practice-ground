@@ -31,7 +31,7 @@ export class DropdownNavHtmlConverter {
       return menuitems.map(menuitem => {
         let result = { el: menuitem, depth, root, parent }
         if (this.isExpandable(menuitem)) {
-          result.depth = ++depth
+          result.depth = depth++
           parent = menuitem
         }
         return result

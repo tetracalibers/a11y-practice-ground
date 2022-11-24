@@ -1,0 +1,49 @@
+---
+import Link from "@/components/dropdown-nav-bar/link.astro"
+import DropdownNavBar from "@/components/dropdown-nav-bar/menubar.astro"
+import HasPopup from "@/components/dropdown-nav-bar/has-popup.astro"
+import Constructor from "@/components/dropdown-nav-bar/constructor.astro"
+---
+
+<Constructor>
+  <DropdownNavBar label="Mythical University">
+    <Link href="#home">Home</Link>
+    <HasPopup title="About">
+      <Link href="#overview">Overview</Link>
+      <Link href="#adminstration">Administration</Link>
+      <HasPopup title="Facts">
+        <Link href="#history">History</Link>
+        <Link href="#current-statistics">Current Statistics</Link>
+        <Link href="#awards">Awards</Link>
+      </HasPopup>
+      <HasPopup title="Campus Tours">
+        <Link href="#for-prospective-students">For prospective students</Link>
+        <Link href="#for-alumni">For alumni</Link>
+        <Link href="#for-visitors">For visitors</Link>
+      </HasPopup>
+    </HasPopup>
+    <HasPopup title="Admissions">
+      <Link href="#apply">Apply</Link>
+      <HasPopup title="Tuition">
+        <Link href="#undergraduate">Undergraduate</Link>
+        <Link href="#graduate">Graduate</Link>
+        <Link href="#professional-schools">Professional Schools</Link>
+      </HasPopup>
+      <Link href="#sign-up">Sign Up</Link>
+      <Link href="#visit">Visit</Link>
+      <Link href="#photo-tour">Photo Tour</Link>
+      <Link href="#connect">Connect</Link>
+    </HasPopup>
+    <HasPopup title="Academic">
+      <Link href="#colleges-and-schools">Colleges &amp; Schools</Link>
+      <Link href="#programs-of-study">Programs of Study</Link>
+      <Link href="#honors-programs">Honors Programs</Link>
+      <Link href="#online-courses">Online Courses</Link>
+      <Link href="#course-explorer">Course Explorer</Link>
+      <Link href="#register-for-class">Register for Class</Link>
+      <Link href="#academic-calendar">Academic Calendar</Link>
+      <Link href="#tanscripts">Transcripts</Link>
+    </HasPopup>
+  </DropdownNavBar>
+</Constructor>
+
