@@ -7,7 +7,7 @@ interface Menuitem {
   parent: HTMLElement
 }
 
-export class DropdownNavHtmlConverter {
+export class DropdownNavHtmlBuilder {
   menuitems: {
     els: HTMLElement[]
     details: Menuitem[]
