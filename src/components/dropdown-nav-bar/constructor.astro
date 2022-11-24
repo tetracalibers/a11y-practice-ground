@@ -1,0 +1,10 @@
+---
+import { DropdownNavHtmlConverter } from "./dropdown-nav.class"
+
+const slots = await Astro.slots.render("default")
+const converter = new DropdownNavHtmlConverter(slots)
+
+const { html } = converter
+---
+
+<Fragment set:html={html} />

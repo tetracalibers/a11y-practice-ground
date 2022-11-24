@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onMount } from "svelte"
-  import { DropdownNav } from "./dropdown-nav.class"
+  import { DropdownNav } from "./dropdown-nav.class.client"
 
   export let label: string
 
