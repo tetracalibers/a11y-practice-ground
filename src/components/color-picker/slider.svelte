@@ -30,8 +30,9 @@
     e.preventDefault()
   }
 
-  const onDragEnd = () => {
+  const onDragEnd = (e: MouseEvent | TouchEvent) => {
     dragging = false
+    e.preventDefault()
   }
 
   const onKeyDownIndicator = (e: KeyboardEvent) => {

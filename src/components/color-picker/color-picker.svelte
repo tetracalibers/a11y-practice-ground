@@ -1,8 +1,8 @@
 <script lang="ts">
   import HueSlider from "./hue-slider.svelte"
   import OpacitySlider from "./opacity-slider.svelte"
+  import SaturationDragPlane from "./saturation-drag-plane.svelte"
   import { hsvaToRgba, rgbaToHex } from "./utility/converters"
-  import { getAreaXyCoordinates } from "./utility/coordinates"
   import { parseColor } from "./utility/parser"
 
   export let color: string = "#ffffff"
@@ -44,10 +44,7 @@
     }
   }
 
-  const onSaturationChange = (e: PointerEvent) => {
-    const { x, y, width, height } = getAreaXyCoordinates(e)
-    const s = (x / width) * 100
-    const v = 100 - (y / height) * 100
+  const onSaturationChange = (s: number, v: number) => {
     const rgba = hsvaToRgba({ ...parsedColor.hsva, s, v })
     onColorChange(rgbaToHex(rgba))
   }
@@ -64,11 +61,9 @@
   }
 </script>
 
+<SaturationDragPlane color={parsedColor} setValueFn={onSaturationChange} />
 <HueSlider color={parsedColor} setValueFn={onHueChange} />
-
 <OpacitySlider color={parsedColor} setValueFn={onOpacityChange} />
-
-<div style={`background: ${color}`} />
 
 <label for="id-ColorPicker__input--hex">Hex</label>
 <input
@@ -107,7 +102,7 @@
   id="id-ColorPicker__input--rgba-b"
   placeholder="B"
   value={parsedColor.rgba.b}
-  on:input={e => onRgbaChange(e, "r")}
+  on:input={e => onRgbaChange(e, "b")}
   inputmode="numeric"
   pattern="[0-9]*"
 />
@@ -118,7 +113,7 @@
   id="id-ColorPicker__input--rgba-a"
   placeholder="A"
   value={parsedColor.rgba.a}
-  on:input={e => onRgbaChange(e, "r")}
+  on:input={e => onRgbaChange(e, "a")}
   inputmode="numeric"
   pattern="[0-9]*"
 />
