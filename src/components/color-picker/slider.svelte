@@ -19,13 +19,13 @@
     setValueFn(value)
   }
 
-  const onDragStart = (e: PointerEvent) => {
+  const onDragStart = (e: MouseEvent | TouchEvent) => {
     dragging = true
     onChange(e)
     e.preventDefault()
   }
 
-  const onDrag = (e: PointerEvent) => {
+  const onDrag = (e: MouseEvent | TouchEvent) => {
     dragging && onChange(e)
     e.preventDefault()
   }
@@ -77,10 +77,12 @@
   aria-valuemax={max}
   aria-label={label}
   on:click={onChange}
-  on:pointerdown={onDragStart}
-  on:pointermove={onDrag}
-  on:pointerup={onDragEnd}
-  on:pointercancel={onDragEnd}
+  on:mousedown={onDragStart}
+  on:mousemove={onDrag}
+  on:mouseup={onDragEnd}
+  on:touchstart={onDragStart}
+  on:touchmove={onDrag}
+  on:touchend={onDragEnd}
 >
   <button
     type="button"
