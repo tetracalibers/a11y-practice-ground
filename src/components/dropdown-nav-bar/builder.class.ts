@@ -15,6 +15,13 @@ export class DropdownNavHtmlBuilder {
   menubarItems: HTMLElement[]
   menus: HTMLElement[][]
   html: string
+  structure
+
+  // TextNodeは除く
+  childElementNodes = (el: HTMLElement) => {
+    const children = el.childNodes.filter(ch => ch.childNodes.length > 0)
+    return children
+  }
 
   constructor(html: string) {
     const menubar = parse(html)
@@ -22,7 +29,21 @@ export class DropdownNavHtmlBuilder {
     this.menubarItems = menubar.querySelectorAll(
       '[role="menubar"] > li > [role="menuitem"]',
     )
+
     this.menus = this.groupingMenuitem(els)
+
+    const elconf = (el: HTMLElement) => {
+      if (!el || !el.tagName) return
+      return {
+        tag: el.rawTagName,
+        attrs: el.attributes,
+        parent: elconf(el.parentNode),
+      }
+    }
+
+    const t = this.menus[1].map(m => elconf(m))
+
+    console.log(JSON.stringify(t, null, 2))
 
     const details = this.menus.flatMap((menuitems, i) => {
       const root = this.menus[i][0]
@@ -31,7 +52,7 @@ export class DropdownNavHtmlBuilder {
       return menuitems.map(menuitem => {
         let result = { el: menuitem, depth, root, parent }
         if (this.isExpandable(menuitem)) {
-          result.depth = depth++
+          depth++
           parent = menuitem
         }
         return result
@@ -49,6 +70,7 @@ export class DropdownNavHtmlBuilder {
     this.setupDepth()
 
     this.html = menubar.toString()
+    this.structure = menubar.structure
   }
 
   // 属するmenubarItemごとに分ける
@@ -65,7 +87,7 @@ export class DropdownNavHtmlBuilder {
 
   setupDepth = () => {
     this.menuitems.details.forEach(({ el, depth }) => {
-      if (depth > 0) {
+      if (depth > 1 && this.isExpandable(el)) {
         el.setAttribute("data-depth", depth.toString())
       }
     })

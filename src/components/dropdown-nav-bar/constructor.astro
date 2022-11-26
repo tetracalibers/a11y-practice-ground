@@ -4,7 +4,16 @@ import { DropdownNavHtmlBuilder } from "./builder.class"
 const slots = await Astro.slots.render("default")
 const builder = new DropdownNavHtmlBuilder(slots)
 
-const { html } = builder
+const { html, structure } = builder
 ---
 
 <Fragment set:html={html} />
+
+<script>
+  import { DropdownNav } from "@/components/dropdown-nav-bar/navigator.class"
+
+  const root = document.getElementById("menubar")
+  const navigator = new DropdownNav(root)
+
+  root.addEventListener("keydown", navigator.onKeydown, false)
+</script>

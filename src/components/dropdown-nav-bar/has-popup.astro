@@ -40,7 +40,7 @@ const { title } = Astro.props
     position: relative;
   }
 
-  [aria-expanded][data-depth] ~ ul {
+  [aria-expanded][data-depth="2"] ~ ul {
     position: absolute;
     width: max-content;
     top: 100%;

@@ -16,12 +16,12 @@ interface Menuitem {
 }
 
 export class DropdownNav {
-  private menuitems: {
+  menuitems: {
     els: HTMLElement[]
     details: Menuitem[]
   }
-  private menubarItems: HTMLElement[]
-  private menus: HTMLElement[][]
+  menubarItems: HTMLElement[]
+  menus: HTMLElement[][]
 
   constructor(menubarEl: HTMLElement) {
     const els = getChildrenArray(menubarEl, '[role="menuitem"]')
@@ -46,11 +46,6 @@ export class DropdownNav {
     })
 
     this.menuitems = { els, details }
-
-    // 最初のmenubarItemのみfocus可能に
-    //this.menubarItems[0].setAttribute("tabindex", "0")
-    // 深さを計測し、セット
-    //this.setupDepth()
   }
 
   // 属するmenubarItemごとに分ける
@@ -62,14 +57,6 @@ export class DropdownNav {
       return i === rootIdxs.length - 1
         ? menuitems.slice(idx)
         : menuitems.slice(idx, rootIdxs[i + 1])
-    })
-  }
-
-  setupDepth = () => {
-    this.menuitems.details.forEach(({ el, depth }) => {
-      if (depth > 0) {
-        el.setAttribute("data-depth", depth.toString())
-      }
     })
   }
 
