@@ -15,7 +15,7 @@ export const getHueCoordinates = (color: Color): number => {
   return x
 }
 
-export const getAreaXyCoodinates = (e: PointerEvent) => {
+export const getAreaXyCoordinates = (e: PointerEvent) => {
   const el = e.currentTarget as HTMLElement
   const { width, height, left, top } = el.getBoundingClientRect()
   const { clientX, clientY } = getPointerPos(e)

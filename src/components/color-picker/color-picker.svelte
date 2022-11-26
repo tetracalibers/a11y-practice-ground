@@ -1,20 +1,14 @@
 <script lang="ts">
+  import HueSlider from "./hue-slider.svelte"
   import OpacitySlider from "./opacity-slider.svelte"
-
   import { hsvaToRgba, rgbaToHex } from "./utility/converters"
-  import {
-    getAreaXyCoodinates,
-    getHueCoordinates,
-    getSaturationCoordinates,
-  } from "./utility/coordinates"
+  import { getAreaXyCoordinates } from "./utility/coordinates"
   import { parseColor } from "./utility/parser"
 
-  export let color: string = "#fff"
+  export let color: string = "#ffffff"
   export let onChange: (color: string) => void = () => {}
 
   let parsedColor = parseColor(color)
-  $: satCoords = getSaturationCoordinates(parsedColor)
-  $: hueCoords = getHueCoordinates(parsedColor)
 
   const onColorChange = (color: string) => {
     parsedColor = parseColor(color)
@@ -51,17 +45,14 @@
   }
 
   const onSaturationChange = (e: PointerEvent) => {
-    const { x, y, width, height } = getAreaXyCoodinates(e)
+    const { x, y, width, height } = getAreaXyCoordinates(e)
     const s = (x / width) * 100
     const v = 100 - (y / height) * 100
     const rgba = hsvaToRgba({ ...parsedColor.hsva, s, v })
     onColorChange(rgbaToHex(rgba))
   }
 
-  const onHueChange = (e: Event) => {
-    const input = e.target as HTMLInputElement
-    // 0 ~ 360
-    const h = Number(input.value)
+  const onHueChange = (h: number) => {
     const hsva = { ...parsedColor.hsva, h }
     const rgba = hsvaToRgba(hsva)
     onColorChange(rgbaToHex(rgba))
@@ -73,16 +64,7 @@
   }
 </script>
 
-<label for="id-ColorPicker__input--hue">Hue</label>
-<input
-  type="range"
-  id="id-ColorPicker__input--hue"
-  value={parsedColor.hsva.h}
-  on:input={onHueChange}
-  min="0"
-  max="360"
-  step="1"
-/>
+<HueSlider color={parsedColor} setValueFn={onHueChange} />
 
 <OpacitySlider color={parsedColor} setValueFn={onOpacityChange} />
 

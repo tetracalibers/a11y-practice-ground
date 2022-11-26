@@ -1,28 +1,33 @@
 <script lang="ts">
   import Slider from "./slider.svelte"
   import { Color } from "./utility/Color.type"
-  import { getAreaXyCoordinates } from "./utility/coordinates"
+  import {
+    getAreaXyCoordinates,
+    getHueCoordinates,
+  } from "./utility/coordinates"
 
   export let color: Color
-  export let setValueFn: (a: number) => void
+  export let setValueFn: (h: number) => void
+
+  const gradient = `linear-gradient(to right, #ff0000, #ffff00, #00ff00, #00ffff, #0000ff, #ff00ff, #ff0000)`
 
   $: rgb = [color.rgba.r, color.rgba.g, color.rgba.b].join(", ")
-  $: gradient = `linear-gradient(to left, rgba(${rgb}, 1), rgba(${rgb}, 0))`
-  $: left = (color.hsva.a ?? 100) + "%"
+  $: coords = getHueCoordinates(color)
+  $: left = (coords ?? 0) + "%"
   $: preview = `rgb(${rgb})`
 
   const calcFn = (e: PointerEvent) => {
     const { x, width } = getAreaXyCoordinates(e)
-    const a = Math.round((x / width) * 100)
-    return a
+    const h = Math.round((x / width) * 360)
+    return h
   }
 </script>
 
 <Slider
   min={0}
-  max={100}
-  label="opacity"
-  value={color.rgba.a ?? 100}
+  max={360}
+  label="hue"
+  value={color.hsva.h ?? 0}
   slider={{ gradient }}
   indicator={{ left, preview }}
   {calcFn}
