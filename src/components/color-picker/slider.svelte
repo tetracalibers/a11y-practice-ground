@@ -1,13 +1,23 @@
 <script lang="ts">
-  export let onChange: (e: MouseEvent | TouchEvent) => void
+  import { clamp } from "@/utility/math"
+
+  export let calcFn: (e: MouseEvent | TouchEvent) => number
+  export let setValueFn: (value: number) => void
   export let min: number
   export let max: number
+  export let step = 1
+  export let largeStep = step * 10
   export let value: number
   export let label: string
   export let slider: { gradient: string }
   export let indicator: { left: string; preview: string }
 
   let dragging = false
+
+  const onChange = (e: MouseEvent | TouchEvent) => {
+    const value = calcFn(e)
+    setValueFn(value)
+  }
 
   const onDragStart = (e: PointerEvent) => {
     dragging = true
@@ -22,6 +32,38 @@
 
   const onDragEnd = () => {
     dragging = false
+  }
+
+  const onKeyDownIndicator = (e: KeyboardEvent) => {
+    const key = e.key
+    switch (key) {
+      case "Right":
+      case "ArrowRight":
+      case "Up":
+      case "ArrowUp":
+        setValueFn(clamp(value + step, min, max))
+        return
+      case "Left":
+      case "ArrowLeft":
+      case "Down":
+      case "ArrowDown":
+        setValueFn(clamp(value - step, min, max))
+        return
+      case "PageUp":
+        setValueFn(clamp(value + largeStep, min, max))
+        return
+      case "PageDown":
+        setValueFn(clamp(value - largeStep, min, max))
+        return
+      case "Home":
+        setValueFn(max)
+        return
+      case "End":
+        setValueFn(min)
+        return
+      default:
+        return
+    }
   }
 </script>
 
@@ -45,6 +87,7 @@
     class="ColorPicker-slider__indicator"
     style:--preview-color={indicator.preview}
     style:--pos-x={indicator.left}
+    on:keydown={onKeyDownIndicator}
   />
 </div>
 

@@ -67,9 +67,7 @@
     onColorChange(rgbaToHex(rgba))
   }
 
-  const onOpacityChange = (e: PointerEvent) => {
-    const { x, width } = getAreaXyCoodinates(e)
-    const a = Math.round((x / width) * 100)
+  const onOpacityChange = (a: number) => {
     const rgba = { ...parsedColor.rgba, a }
     onColorChange(rgbaToHex(rgba))
   }
@@ -86,7 +84,7 @@
   step="1"
 />
 
-<OpacitySlider color={parsedColor} onChange={onOpacityChange} />
+<OpacitySlider color={parsedColor} setValueFn={onOpacityChange} />
 
 <div style={`background: ${color}`} />
 
