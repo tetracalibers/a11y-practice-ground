@@ -1,17 +1,22 @@
 <script lang="ts">
+  import Slider from "./slider.svelte"
   import { Color } from "./utility/Color.type"
 
-  export let parsedColor: Color
-  export let onChange: (e: Event) => void
+  export let color: Color
+  export let onChange: (e: PointerEvent) => void
+
+  $: rgb = [color.rgba.r, color.rgba.g, color.rgba.b].join(", ")
+  $: gradient = `linear-gradient(to left, rgba(${rgb}, 1), rgba(${rgb}, 0))`
+  $: left = (color.hsva.a ?? 100) + "%"
+  $: preview = `rgb(${rgb})`
 </script>
 
-<label for="id-ColorPicker__input--opacity">Opacity</label>
-<input
-  type="range"
-  id="id-ColorPicker__input--opacity"
-  value={parsedColor.hsva.a}
-  on:input={onChange}
-  min="0"
-  max="100"
-  step="1"
+<Slider
+  min={0}
+  max={100}
+  label="opacity"
+  value={color.rgba.a ?? 100}
+  slider={{ gradient }}
+  indicator={{ left, preview }}
+  {onChange}
 />
