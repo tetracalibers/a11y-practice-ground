@@ -8,8 +8,10 @@
   export let color: Color
   export let setValueFn: (s: number, v: number) => void
 
+  // 更新したいときに手動更新するため、$はつけない
+  let coords = getSaturationCoordinates(color)
+
   $: rgb = [color.rgba.r, color.rgba.g, color.rgba.b].join(", ")
-  $: coords = getSaturationCoordinates(color)
   $: bgColor = `hsl(${color.hsva.h}, 100%, 50%)`
   $: preview = `rgb(${rgb})`
 
@@ -25,6 +27,7 @@
   const onChange = (e: MouseEvent | TouchEvent) => {
     const values = calcFn(e)
     setValueFn(...values)
+    coords = getSaturationCoordinates(color)
   }
 
   const onDragStart = (e: MouseEvent | TouchEvent) => {
@@ -41,6 +44,33 @@
   const onDragEnd = (e: MouseEvent | TouchEvent) => {
     dragging = false
     e.preventDefault()
+  }
+
+  const onKeyDownIndicator = (e: KeyboardEvent) => {
+    const key = e.key
+    switch (key) {
+      case "Right":
+      case "ArrowRight":
+        coords = [coords[0] + 1, coords[1]]
+        break
+      case "Left":
+      case "ArrowLeft":
+        coords = [coords[0] - 1, coords[1]]
+        break
+      case "Up":
+      case "ArrowUp":
+        coords = [coords[0], coords[1] - 1]
+        break
+      case "Down":
+      case "ArrowDown":
+        coords = [coords[0], coords[1] + 1]
+        break
+      default:
+        return
+    }
+    const s = coords[0]
+    const v = 100 - coords[1]
+    setValueFn(s, v)
   }
 </script>
 
@@ -67,6 +97,7 @@
     style:--preview-color={preview}
     style:--pos-x={(coords?.[0] ?? 0) + "%"}
     style:--pos-y={(coords?.[1] ?? 0) + "%"}
+    on:keydown={onKeyDownIndicator}
   />
 </div>
 
