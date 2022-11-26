@@ -3,7 +3,6 @@ layout: '@/layouts/BaseLayout.astro'
 title: 'ColorPicker'
 ---
 
-import ColorPicker from '@/components/color-picker/color-picker.svelte'
-import Centering from "@/layouts/Centering.astro"
+import ColorPicker from '@/components/color-picker/index.svelte'
 
-<Centering><ColorPicker client:load /></Centering>
+<ColorPicker client:load />
