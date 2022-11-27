@@ -4,7 +4,10 @@
 
   let lastpos = { x: 0, y: 0 }
   let position = { x: 0, y: 0 }
+  let startpos = { x: 0, y: 0 }
   let dragging = false
+
+  const step = 10
 
   const onDragStart = (e: MouseEvent | TouchEvent) => {
     e.preventDefault()
@@ -46,6 +49,53 @@
     document.removeEventListener("mouseup", onDragEnd)
     document.removeEventListener("touchend", onDragEnd)
   }
+
+  const onKeydown = (e: KeyboardEvent) => {
+    const key = e.key
+    switch (key) {
+      case " ":
+      case "Space":
+        dragging = !dragging
+        startpos.x = lastpos.x
+        startpos.y = lastpos.y
+        return
+      case "Up":
+      case "ArrowUp":
+        if (!dragging) return
+        position.y -= step
+        lastpos.y = position.y
+        return
+      case "Down":
+      case "ArrowDown":
+        if (!dragging) return
+        position.y += step
+        lastpos.y = position.y
+        return
+      case "Left":
+      case "ArrowLeft":
+        if (!dragging) return
+        position.x -= step
+        lastpos.x = position.x
+        return
+      case "Right":
+      case "ArrowRight":
+        if (!dragging) return
+        position.x += step
+        lastpos.x = position.x
+        return
+      case "Esc":
+      case "Escape":
+        if (!dragging) return
+        position.x = startpos.x
+        position.y = startpos.y
+        lastpos.x = startpos.x
+        lastpos.y = startpos.y
+        dragging = false
+        return
+      default:
+        return
+    }
+  }
 </script>
 
 <div
@@ -57,7 +107,7 @@
   on:touchstart={onDragStart}
 >
   <slot />
-  <button type="button" class="moveable__move-button">
+  <button type="button" class="moveable__move-button" on:keydown={onKeydown}>
     <div class="visually-hidden">
       Element grabbed. Current position: Row 3, Column 2. Use the arrow keys to
       change position of the top left corner on canvas, Spacebar to drop, Escape
