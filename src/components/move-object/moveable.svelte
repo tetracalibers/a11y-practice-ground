@@ -7,11 +7,32 @@
   let startpos = { x: 0, y: 0 }
   let dragging = false
 
+  let notifyEl: HTMLElement
+
   const step = 10
+
+  const setState = (state: "start" | "settled" | "cancel") => {
+    switch (state) {
+      case "start":
+        dragging = true
+        notifyEl.innerText = "移動モードに入りました。"
+        return
+      case "settled":
+        dragging = false
+        notifyEl.innerText = "位置が確定されました。"
+        return
+      case "cancel":
+        dragging = false
+        notifyEl.innerText = "移動がキャンセルされ、元の位置に戻りました。"
+        return
+      default:
+        return
+    }
+  }
 
   const onDragStart = (e: MouseEvent | TouchEvent) => {
     e.preventDefault()
-    dragging = true
+    setState("start")
     const { clientX, clientY } = getPointerPos(e)
     // スタート位置記録
     lastpos.x = clientX
@@ -42,7 +63,7 @@
 
   const onDragEnd = (e: MouseEvent | TouchEvent) => {
     e.preventDefault()
-    dragging = false
+    setState("settled")
     // ドラッグ操作完了時にイベントを剥がす
     document.removeEventListener("mousemove", onDragMove)
     document.removeEventListener("touchmove", onDragMove)
@@ -55,7 +76,7 @@
     switch (key) {
       case " ":
       case "Space":
-        dragging = !dragging
+        dragging ? setState("settled") : setState("start")
         startpos.x = lastpos.x
         startpos.y = lastpos.y
         return
@@ -90,7 +111,8 @@
         position.y = startpos.y
         lastpos.x = startpos.x
         lastpos.y = startpos.y
-        dragging = false
+        // 位置を戻してから、その旨を通知
+        setState("cancel")
         return
       default:
         return
@@ -99,7 +121,7 @@
 </script>
 
 <div
-  class="moveable"
+  class="Moveable"
   class:dragging
   style:--pos-x={position.x + "px"}
   style:--pos-y={position.y + "px"}
@@ -107,34 +129,54 @@
   on:touchstart={onDragStart}
 >
   <slot />
-  <button type="button" class="moveable__move-button" on:keydown={onKeydown}>
-    <div class="visually-hidden">
-      Element grabbed. Current position: Row 3, Column 2. Use the arrow keys to
-      change position of the top left corner on canvas, Spacebar to drop, Escape
-      key to cancel.
-    </div>
+  <button
+    type="button"
+    class="Moveable__move-button"
+    on:keydown={onKeydown}
+    aria-label="移動可能"
+    aria-describedby="id-Moveable__desc--usage id-Moveable__desc--state id-Moveable__desc--position"
+  >
     <Move />
   </button>
+  <p class="visually-hidden" id="id-Moveable__desc--usage">
+    Spaceキーで移動モードに入ると、Arrowキーで各方向に移動できるようになります。
+    再度Spaceキーを押すと位置が確定されます。Escapeキーを押すとキャンセルされます。
+  </p>
+  <p class="visually-hidden">
+    <span
+      id="id-Moveable__desc--state"
+      bind:this={notifyEl}
+      aria-live="polite"
+      aria-atomic="true"
+    />
+    <span
+      id="id-Moveable__desc--position"
+      aria-live="polite"
+      aria-atomic="true"
+    >
+      現在の位置は縦{position.y}、横{position.x}です。
+    </span>
+  </p>
 </div>
 
 <style>
-  .moveable {
+  .Moveable {
     position: relative;
     transform: translate(var(--pos-x), var(--pos-y));
     width: fit-content;
   }
 
-  .moveable.dragging {
+  .Moveable.dragging {
     box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px,
       rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
     border: 2px dashed #94a3b8;
   }
 
-  .moveable :global(*) {
+  .Moveable :global(*) {
     cursor: move;
   }
 
-  .moveable__move-button {
+  .Moveable__move-button {
     appearance: none;
     background-color: transparent;
     position: absolute;
