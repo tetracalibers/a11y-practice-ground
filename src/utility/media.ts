@@ -1,6 +1,7 @@
+export const isTouchEvent = (e: MouseEvent | TouchEvent): e is TouchEvent =>
+  "TouchEvent" in window && e instanceof TouchEvent
+
 export const getPointerPos = (e: MouseEvent | TouchEvent) => {
-  const touchObject = (e as TouchEvent).changedTouches?.[0]
-  const { clientX, clientY } =
-    touchObject === undefined ? (e as MouseEvent) : touchObject
+  const { clientX, clientY } = isTouchEvent(e) ? e.touches[0] : e
   return { clientX, clientY }
 }

@@ -1,0 +1,11 @@
+---
+layout: '@/layouts/BaseLayout.astro'
+title: 'Move by Drag and Drop'
+---
+
+import Moveable from '@/components/move-object/moveable.svelte'
+import Box from '@/components/dummy/empty-box.svelte'
+
+<Moveable client:load>
+  <Box />
+</Moveable>
