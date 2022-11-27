@@ -79,7 +79,7 @@
         dragging ? setState("settled") : setState("start")
         startpos.x = lastpos.x
         startpos.y = lastpos.y
-        return
+        break
       case "Up":
       case "ArrowUp":
         if (!dragging) return
@@ -113,10 +113,11 @@
         lastpos.y = startpos.y
         // 位置を戻してから、その旨を通知
         setState("cancel")
-        return
+        break
       default:
         return
     }
+    e.preventDefault()
   }
 </script>
 

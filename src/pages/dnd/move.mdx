@@ -4,8 +4,55 @@ title: 'Move by Drag and Drop'
 ---
 
 import Moveable from '@/components/move-object/moveable.svelte'
-import Box from '@/components/dummy/empty-box.svelte'
+import Box from '@/components/dummy/text-box.svelte'
+import FullScreen from '@/layouts/full-screen.astro'
+import KeyMap from '@/components/print/key-operation/KeyMap.astro'
+import Operation from '@/components/print/key-operation/Operation.astro'
+import Keys from '@/components/print/key-operation/Keys.astro'
+import Key from '@/components/print/key-operation/Key.astro'
+import SpecList from '@/components/print/key-operation/SpecList.astro'
+import Spec from '@/components/print/key-operation/Spec.astro'
 
 <Moveable client:load>
-  <Box />
+  <Box>動くよ</Box>
 </Moveable>
+
+<KeyMap>
+  <Operation>
+    <Keys><Key>Space</Key></Keys>
+    <SpecList>
+      <Spec>要素を持ち上げる（移動を開始する）</Spec>
+      <Spec>移動中なら、位置を確定する（要素をそこに置く）</Spec>
+    </SpecList>
+  </Operation>
+  <Operation>
+    <Keys><Key>Escape</Key></Keys>
+    <SpecList>
+      <Spec>（移動中のみ）移動をキャンセルし、元の位置に戻る</Spec>
+    </SpecList>
+  </Operation>
+  <Operation>
+    <Keys><Key>ArrowDown</Key></Keys>
+    <SpecList>
+      <Spec>（移動中のみ）下に進む</Spec>
+    </SpecList>
+  </Operation>
+  <Operation>
+    <Keys><Key>ArrowUp</Key></Keys>
+    <SpecList>
+      <Spec>（移動中のみ）上に進む</Spec>
+    </SpecList>
+  </Operation>
+  <Operation>
+    <Keys><Key>ArrowLeft</Key></Keys>
+    <SpecList>
+      <Spec>（移動中のみ）左に進む</Spec>
+    </SpecList>
+  </Operation>
+  <Operation>
+    <Keys><Key>ArrowRight</Key></Keys>
+    <SpecList>
+      <Spec>（移動中のみ）右に進む</Spec>
+    </SpecList>
+  </Operation>
+</KeyMap>
