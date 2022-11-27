@@ -8,6 +8,7 @@
   let cols: HTMLElement[] = Array(columns.length)
   let draggingIdx = null
 
+  $: columnWidths = cols.map(col => col?.offsetWidth + "px")
   $: resizerHeight = tableEl?.offsetHeight ?? 0
 
   const onDragStart = (e: MouseEvent | TouchEvent, i: number) => {
@@ -23,14 +24,11 @@
     if (draggingIdx === null) return
     e.preventDefault()
     const { clientX } = getPointerPos(e)
-    const gridColumns = cols.map((col, idx) => {
-      if (draggingIdx === idx) {
-        const w = clientX - col.offsetLeft
-        if (w >= 150) return w + "px"
-      }
-      return col.offsetWidth + "px"
-    })
-    tableEl.style.gridTemplateColumns = gridColumns.join(" ")
+    const resizedW = clientX - cols[draggingIdx].offsetLeft
+    if (resizedW >= 150) {
+      columnWidths[draggingIdx] = resizedW + "px"
+    }
+    tableEl.style.gridTemplateColumns = columnWidths.join(" ")
   }
 
   const onDragEnd = (e: MouseEvent | TouchEvent) => {
