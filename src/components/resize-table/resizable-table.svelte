@@ -1,18 +1,60 @@
 <script lang="ts">
+  import { getPointerPos } from "@/utility/media"
+
   export let columns: string[]
   export let data: Record<typeof columns[number], string>[]
 
   let tableEl: HTMLTableElement
+  let cols: HTMLElement[] = Array(columns.length)
+  let draggingIdx = null
+
   $: resizerHeight = tableEl?.offsetHeight ?? 0
+
+  const onDragStart = (e: MouseEvent | TouchEvent, i: number) => {
+    e.preventDefault()
+    draggingIdx = i
+    window.addEventListener("mousemove", onDrag, { passive: false })
+    window.addEventListener("touchmove", onDrag, { passive: false })
+    window.addEventListener("mouseup", onDragEnd)
+    window.addEventListener("touchend", onDragEnd)
+  }
+
+  const onDrag = (e: MouseEvent | TouchEvent) => {
+    if (draggingIdx === null) return
+    e.preventDefault()
+    const { clientX } = getPointerPos(e)
+    const gridColumns = cols.map((col, idx) => {
+      if (draggingIdx === idx) {
+        const w = clientX - col.offsetLeft
+        if (w >= 150) return w + "px"
+      }
+      return col.offsetWidth + "px"
+    })
+    tableEl.style.gridTemplateColumns = gridColumns.join(" ")
+  }
+
+  const onDragEnd = (e: MouseEvent | TouchEvent) => {
+    e.preventDefault()
+    draggingIdx = null
+    window.removeEventListener("mousemove", onDrag)
+    window.removeEventListener("touchmove", onDrag)
+    window.removeEventListener("mouseup", onDragEnd)
+    window.removeEventListener("touchend", onDragEnd)
+  }
 </script>
 
 <table bind:this={tableEl}>
   <thead>
     <tr>
-      {#each columns as column}
-        <th>
+      {#each columns as column, i}
+        <th bind:this={cols[i]}>
           <div>{column}</div>
-          <button class="resize-handle" style:--height={resizerHeight + "px"} />
+          <button
+            class="resize-handle"
+            style:--height={resizerHeight + "px"}
+            on:mousedown={e => onDragStart(e, i)}
+            on:touchstart={e => onDragStart(e, i)}
+          />
         </th>
       {/each}
     </tr>
@@ -32,7 +74,8 @@
   table {
     width: 100%;
     display: grid;
-    overflow: auto;
+    overflow-x: auto;
+    overflow-y: hidden;
     grid-template-columns:
       minmax(150px, 1fr)
       minmax(150px, 1fr)
