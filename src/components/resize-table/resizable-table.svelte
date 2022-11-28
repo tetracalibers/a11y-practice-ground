@@ -15,7 +15,8 @@
   $: columnWidths = cols.map(col => col?.offsetWidth)
   $: resizerHeight = tableEl?.offsetHeight ?? 0
   $: maxColumnWidth = tableEl
-    ? tableEl.offsetWidth - minColumnWidth * (columns.length - 1)
+    ? Math.min(tableEl.offsetWidth, document.documentElement.clientWidth) -
+      minColumnWidth * (columns.length - 1)
     : minColumnWidth
 
   const updateColumnStyle = () => {
@@ -24,19 +25,58 @@
       .join(" ")
   }
 
+  const calcOverflow = () => {
+    const totalWidth = columnWidths.reduce((prev, curr) => prev + curr, 0)
+    const tableWidth = Math.min(
+      tableEl.offsetWidth,
+      document.documentElement.clientWidth,
+    )
+    const overflow = tableWidth - totalWidth
+    return overflow
+  }
+
   const resize = (resizedW: number) => {
-    columnWidths[draggingIdx] = clamp(resizedW, minColumnWidth, maxColumnWidth)
+    const newWidth = clamp(resizedW, minColumnWidth, maxColumnWidth)
+    columnWidths[draggingIdx] = newWidth
+    const overflow = calcOverflow()
+    // resizeTarget以外のカラムで余白を分け合う
+    const dx = overflow / (columns.length - 1)
+
+    cols.forEach((_, i) => {
+      if (i > draggingIdx) {
+        columnWidths[i] = clamp(
+          columnWidths[i] + dx,
+          minColumnWidth,
+          maxColumnWidth,
+        )
+      }
+    })
     updateColumnStyle()
   }
 
   const resizeToMin = () => {
-    resize(minColumnWidth)
+    columnWidths[draggingIdx] = minColumnWidth
+    const overflow = calcOverflow()
+    // resizeTargetより右側にあるカラムで余白を分け合う
+    const dx = overflow / (columns.length - 1 - draggingIdx)
+    cols.forEach((_, i) => {
+      if (i > draggingIdx) {
+        columnWidths[i] = clamp(
+          columnWidths[i] + dx,
+          minColumnWidth,
+          maxColumnWidth,
+        )
+      }
+    })
+    updateColumnStyle()
   }
 
   const resizeToMax = () => {
+    columnWidths[draggingIdx] = maxColumnWidth
     cols.forEach((_, i) => {
-      const w = i === draggingIdx ? maxColumnWidth : minColumnWidth
-      columnWidths[i] = w
+      if (i !== draggingIdx) {
+        columnWidths[i] = minColumnWidth
+      }
     })
     updateColumnStyle()
   }
@@ -100,20 +140,22 @@
       {#each columns as column, i}
         <th bind:this={cols[i]} id={`id-ResizableTable-header__column--${i}`}>
           <div>{column}</div>
-          <hr
-            class="resize-handle"
-            style:--height={resizerHeight + "px"}
-            tabindex="0"
-            aria-orientation="vertical"
-            aria-valuenow={columnWidths[i]}
-            aria-valuemin={minColumnWidth}
-            aria-valuemax={maxColumnWidth}
-            aria-label={`${column}列の幅変更コントロール`}
-            aria-controls={`id-ResizableTable-header__column--${i} id-ResizableTable-data__column--${i}`}
-            on:mousedown={e => onDragStart(e, i)}
-            on:touchstart={e => onDragStart(e, i)}
-            on:keydown={e => onKeydownResizer(e, i)}
-          />
+          {#if i < columns.length - 1}
+            <hr
+              class="resize-handle"
+              style:--height={resizerHeight + "px"}
+              tabindex="0"
+              aria-orientation="vertical"
+              aria-valuenow={columnWidths[i]}
+              aria-valuemin={minColumnWidth}
+              aria-valuemax={maxColumnWidth}
+              aria-label={`${column}列の幅変更コントロール`}
+              aria-controls={`id-ResizableTable-header__column--${i} id-ResizableTable-data__column--${i}`}
+              on:mousedown={e => onDragStart(e, i)}
+              on:touchstart={e => onDragStart(e, i)}
+              on:keydown={e => onKeydownResizer(e, i)}
+            />
+          {/if}
         </th>
       {/each}
     </tr>
@@ -135,8 +177,7 @@
   table {
     width: 100%;
     display: grid;
-    overflow-x: auto;
-    overflow-y: hidden;
+    overflow: hidden;
     grid-template-columns:
       minmax(150px, 1fr)
       minmax(150px, 1fr)
