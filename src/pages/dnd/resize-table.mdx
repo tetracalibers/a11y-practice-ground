@@ -4,5 +4,38 @@ title: 'Resizable Table'
 ---
 
 import Table from '@/components/resize-table/index.svelte'
+import KeyMap from '@/components/print/key-operation/KeyMap.astro'
+import Operation from '@/components/print/key-operation/Operation.astro'
+import Keys from '@/components/print/key-operation/Keys.astro'
+import Key from '@/components/print/key-operation/Key.astro'
+import SpecList from '@/components/print/key-operation/SpecList.astro'
+import Spec from '@/components/print/key-operation/Spec.astro'
 
 <Table client:load />
+
+<KeyMap>
+  <Operation>
+    <Keys><Key>ArrowLeft</Key></Keys>
+    <SpecList>
+      <Spec>（縦区切り線にfocus時）幅を狭める</Spec>
+    </SpecList>
+  </Operation>
+  <Operation>
+    <Keys><Key>ArrowRight</Key></Keys>
+    <SpecList>
+      <Spec>（縦区切り線にfocus時）幅を広げる</Spec>
+    </SpecList>
+  </Operation>
+  <Operation>
+    <Keys><Key>Home</Key></Keys>
+    <SpecList>
+      <Spec>（縦区切り線にfocus時）最小幅にする</Spec>
+    </SpecList>
+  </Operation>
+  <Operation>
+    <Keys><Key>End</Key></Keys>
+    <SpecList>
+      <Spec>（縦区切り線にfocus時）最大幅にする</Spec>
+    </SpecList>
+  </Operation>
+</KeyMap>

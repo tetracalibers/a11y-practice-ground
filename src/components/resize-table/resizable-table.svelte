@@ -124,7 +124,7 @@
         break
       case "End":
         resizeToMax()
-        return
+        break
       default:
         return
     }
@@ -182,6 +182,7 @@
       minmax(150px, 1fr)
       minmax(150px, 1fr)
       minmax(150px, 1fr);
+    border: 2px solid #ccc;
   }
 
   table thead,
@@ -222,16 +223,13 @@
     height: var(--height);
     right: 0;
     top: 0;
-    z-index: 1;
-    border-right: 2px solid transparent;
+    border-right: 1px solid #ccc;
   }
 
-  .resize-handle:hover {
-    border-color: #ccc;
-  }
-
-  .resize-handle:active,
-  .resize-handle:focus {
+  .resize-handle:hover,
+  .resize-handle:focus,
+  .resize-handle:active {
+    border-width: 2px;
     border-color: #517ea5;
     outline: none;
   }
