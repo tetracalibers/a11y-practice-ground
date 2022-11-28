@@ -9,7 +9,7 @@
 
   let tableEl: HTMLTableElement
   let cols: HTMLElement[] = Array(columns.length)
-  let draggingIdx = null
+  let draggingIdx: number = null
 
   $: columnWidths = cols.map(col => col?.offsetWidth + "px")
   $: resizerHeight = tableEl?.offsetHeight ?? 0
@@ -58,6 +58,12 @@
       case "Left":
       case "ArrowLeft":
         resize(cols[i].offsetWidth - step)
+        break
+      case "Home":
+        resize(minColumnWidth)
+        break
+      case "End":
+        // 最大幅に広げる（今回は制限なしなのでスルー）
         return
       default:
         return
@@ -76,10 +82,17 @@
           <button
             class="resize-handle"
             style:--height={resizerHeight + "px"}
+            aria-label="幅変更可能"
+            aria-describedby="id-Resizer__desc--usage"
             on:mousedown={e => onDragStart(e, i)}
             on:touchstart={e => onDragStart(e, i)}
             on:keydown={e => onKeydownResizer(e, i)}
           />
+          <div class="visually-hidden" id="id-Resizer__desc--usage">
+            右矢印キーで幅を広げることができます。
+            左矢印キーで幅を狭めることができます。
+            Homeキーで最小幅にすることができます。
+          </div>
         </th>
       {/each}
     </tr>
