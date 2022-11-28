@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { clamp } from "@/utility/math"
   import { getPointerPos } from "@/utility/media"
 
   export let columns: string[]
@@ -11,14 +12,33 @@
   let cols: HTMLElement[] = Array(columns.length)
   let draggingIdx: number = null
 
-  $: columnWidths = cols.map(col => col?.offsetWidth + "px")
+  $: columnWidths = cols.map(col => col?.offsetWidth)
   $: resizerHeight = tableEl?.offsetHeight ?? 0
+  $: maxColumnWidth = tableEl
+    ? tableEl.offsetWidth - minColumnWidth * (columns.length - 1)
+    : minColumnWidth
+
+  const updateColumnStyle = () => {
+    tableEl.style.gridTemplateColumns = columnWidths
+      .map(w => w + "px")
+      .join(" ")
+  }
 
   const resize = (resizedW: number) => {
-    if (resizedW >= minColumnWidth) {
-      columnWidths[draggingIdx] = resizedW + "px"
-      tableEl.style.gridTemplateColumns = columnWidths.join(" ")
-    }
+    columnWidths[draggingIdx] = clamp(resizedW, minColumnWidth, maxColumnWidth)
+    updateColumnStyle()
+  }
+
+  const resizeToMin = () => {
+    resize(minColumnWidth)
+  }
+
+  const resizeToMax = () => {
+    cols.forEach((_, i) => {
+      const w = i === draggingIdx ? maxColumnWidth : minColumnWidth
+      columnWidths[i] = w
+    })
+    updateColumnStyle()
   }
 
   const onDragStart = (e: MouseEvent | TouchEvent, i: number) => {
@@ -60,10 +80,10 @@
         resize(cols[i].offsetWidth - step)
         break
       case "Home":
-        resize(minColumnWidth)
+        resizeToMin()
         break
       case "End":
-        // 最大幅に広げる（今回は制限なしなのでスルー）
+        resizeToMax()
         return
       default:
         return
@@ -73,26 +93,27 @@
   }
 </script>
 
+<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
 <table bind:this={tableEl}>
   <thead>
     <tr>
       {#each columns as column, i}
-        <th bind:this={cols[i]}>
+        <th bind:this={cols[i]} id={`id-ResizableTable-header__column--${i}`}>
           <div>{column}</div>
-          <button
+          <hr
             class="resize-handle"
             style:--height={resizerHeight + "px"}
-            aria-label="幅変更可能"
-            aria-describedby="id-Resizer__desc--usage"
+            tabindex="0"
+            aria-orientation="vertical"
+            aria-valuenow={columnWidths[i]}
+            aria-valuemin={minColumnWidth}
+            aria-valuemax={maxColumnWidth}
+            aria-label={`${column}列の幅変更コントロール`}
+            aria-controls={`id-ResizableTable-header__column--${i} id-ResizableTable-data__column--${i}`}
             on:mousedown={e => onDragStart(e, i)}
             on:touchstart={e => onDragStart(e, i)}
             on:keydown={e => onKeydownResizer(e, i)}
           />
-          <div class="visually-hidden" id="id-Resizer__desc--usage">
-            右矢印キーで幅を広げることができます。
-            左矢印キーで幅を狭めることができます。
-            Homeキーで最小幅にすることができます。
-          </div>
         </th>
       {/each}
     </tr>
@@ -100,8 +121,10 @@
   <tbody>
     {#each data as row}
       <tr>
-        {#each columns as column}
-          <td><div>{row[column]}</div></td>
+        {#each columns as column, i}
+          <td id={`id-ResizableTable-data__column--${i}`}
+            ><div>{row[column]}</div></td
+          >
         {/each}
       </tr>
     {/each}
