@@ -4,12 +4,22 @@
   export let columns: string[]
   export let data: Record<typeof columns[number], string>[]
 
+  const minColumnWidth = 150
+  const step = 10
+
   let tableEl: HTMLTableElement
   let cols: HTMLElement[] = Array(columns.length)
   let draggingIdx = null
 
   $: columnWidths = cols.map(col => col?.offsetWidth + "px")
   $: resizerHeight = tableEl?.offsetHeight ?? 0
+
+  const resize = (resizedW: number) => {
+    if (resizedW >= minColumnWidth) {
+      columnWidths[draggingIdx] = resizedW + "px"
+      tableEl.style.gridTemplateColumns = columnWidths.join(" ")
+    }
+  }
 
   const onDragStart = (e: MouseEvent | TouchEvent, i: number) => {
     e.preventDefault()
@@ -25,10 +35,7 @@
     e.preventDefault()
     const { clientX } = getPointerPos(e)
     const resizedW = clientX - cols[draggingIdx].offsetLeft
-    if (resizedW >= 150) {
-      columnWidths[draggingIdx] = resizedW + "px"
-    }
-    tableEl.style.gridTemplateColumns = columnWidths.join(" ")
+    resize(resizedW)
   }
 
   const onDragEnd = (e: MouseEvent | TouchEvent) => {
@@ -38,6 +45,25 @@
     window.removeEventListener("touchmove", onDrag)
     window.removeEventListener("mouseup", onDragEnd)
     window.removeEventListener("touchend", onDragEnd)
+  }
+
+  const onKeydownResizer = (e: KeyboardEvent, i: number) => {
+    const key = e.key
+    draggingIdx = i
+    switch (key) {
+      case "Right":
+      case "ArrowRight":
+        resize(cols[i].offsetWidth + step)
+        break
+      case "Left":
+      case "ArrowLeft":
+        resize(cols[i].offsetWidth - step)
+        return
+      default:
+        return
+    }
+    draggingIdx = null
+    e.preventDefault()
   }
 </script>
 
@@ -52,6 +78,7 @@
             style:--height={resizerHeight + "px"}
             on:mousedown={e => onDragStart(e, i)}
             on:touchstart={e => onDragStart(e, i)}
+            on:keydown={e => onKeydownResizer(e, i)}
           />
         </th>
       {/each}
