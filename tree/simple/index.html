@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta name="generator" content="Astro v1.6.10">
+    <title>Simple Tree</title>
+  <link rel="stylesheet" href="/a11y-practice-ground/assets/simple.8d74d793.css" />
+<link rel="stylesheet" href="/a11y-practice-ground/assets/faq.3b49cfc9.css" />
+<link rel="stylesheet" href="/a11y-practice-ground/assets/faq.3d525bc0.css" /></head>
+  <body>
+    <div class="centering astro-D2UISYQ6">
+  <div class="astro-D2UISYQ6"><style>astro-island,astro-slot{display:contents}</style><script>(self.Astro=self.Astro||{}).load=a=>{(async()=>await(await a())())()},window.dispatchEvent(new Event("astro:load"));var l;{const c={0:t=>t,1:t=>JSON.parse(t,o),2:t=>new RegExp(t),3:t=>new Date(t),4:t=>new Map(JSON.parse(t,o)),5:t=>new Set(JSON.parse(t,o)),6:t=>BigInt(t),7:t=>new URL(t),8:t=>new Uint8Array(JSON.parse(t)),9:t=>new Uint16Array(JSON.parse(t)),10:t=>new Uint32Array(JSON.parse(t))},o=(t,s)=>{if(t===""||!Array.isArray(s))return s;const[e,n]=s;return e in c?c[e](n):void 0};customElements.get("astro-island")||customElements.define("astro-island",(l=class extends HTMLElement{constructor(){super(...arguments);this.hydrate=()=>{if(!this.hydrator||this.parentElement&&this.parentElement.closest("astro-island[ssr]"))return;const s=this.querySelectorAll("astro-slot"),e={},n=this.querySelectorAll("template[data-astro-template]");for(const r of n){const i=r.closest(this.tagName);!i||!i.isSameNode(this)||(e[r.getAttribute("data-astro-template")||"default"]=r.innerHTML,r.remove())}for(const r of s){const i=r.closest(this.tagName);!i||!i.isSameNode(this)||(e[r.getAttribute("name")||"default"]=r.innerHTML)}const a=this.hasAttribute("props")?JSON.parse(this.getAttribute("props"),o):{};this.hydrator(this)(this.Component,a,e,{client:this.getAttribute("client")}),this.removeAttribute("ssr"),window.removeEventListener("astro:hydrate",this.hydrate),window.dispatchEvent(new CustomEvent("astro:hydrate"))}}connectedCallback(){!this.hasAttribute("await-children")||this.firstChild?this.childrenConnectedCallback():new MutationObserver((s,e)=>{e.disconnect(),this.childrenConnectedCallback()}).observe(this,{childList:!0})}async childrenConnectedCallback(){window.addEventListener("astro:hydrate",this.hydrate);let s=this.getAttribute("before-hydration-url");s&&await import(s),this.start()}start(){const s=JSON.parse(this.getAttribute("opts")),e=this.getAttribute("client");if(Astro[e]===void 0){window.addEventListener(`astro:${e}`,()=>this.start(),{once:!0});return}Astro[e](async()=>{const n=this.getAttribute("renderer-url"),[a,{default:r}]=await Promise.all([import(this.getAttribute("component-url")),n?import(n):()=>()=>{}]),i=this.getAttribute("component-export")||"default";if(!i.includes("."))this.Component=a[i];else{this.Component=a;for(const d of i.split("."))this.Component=this.Component[d]}return this.hydrator=r,this.hydrate},s,this)}attributeChangedCallback(){this.hydrator&&this.hydrate()}},l.observedAttributes=["props"],l))}</script><astro-island uid="Z20vVHO" component-url="/a11y-practice-ground/index.30882b60.js" component-export="default" renderer-url="/a11y-practice-ground/client.788af3ea.js" props="{}" ssr="" client="load" opts="{&quot;name&quot;:{},&quot;value&quot;:true}" await-children=""><nav aria-label="Mythical University"><ul role="tree" aria-label="Mythical University"><li role="presentation">
+  <a role="treeitem" href="#home" aria-current="false" tabindex="-1">Home</a></li>
+    
+<li role="presentation" class="svelte-1rsaosx"><button role="treeitem" aria-expanded="false" aria-owns="About-subtree" tabindex="-1" class="svelte-1rsaosx">＋About</button>
+  <ul id="About-subtree" role="group" aria-label="About" class="svelte-1rsaosx"><li role="presentation">
+  <a role="treeitem" href="#overview" aria-current="false" tabindex="-1">Overview</a></li>
+      <li role="presentation">
+  <a role="treeitem" href="#adminstration" aria-current="false" tabindex="-1">Administration</a></li>
+      
+<li role="presentation" class="svelte-1rsaosx"><button role="treeitem" aria-expanded="false" aria-owns="Facts-subtree" tabindex="-1" class="svelte-1rsaosx">＋Facts</button>
+  <ul id="Facts-subtree" role="group" aria-label="Facts" class="svelte-1rsaosx"><li role="presentation">
+  <a role="treeitem" href="#history" aria-current="false" tabindex="-1">History</a></li>
+        <li role="presentation">
+  <a role="treeitem" href="#current-statistics" aria-current="false" tabindex="-1">Current Statistics</a></li>
+        <li role="presentation">
+  <a role="treeitem" href="#awards" aria-current="false" tabindex="-1">Awards</a></li></ul>
+</li>
+      
+<li role="presentation" class="svelte-1rsaosx"><button role="treeitem" aria-expanded="false" aria-owns="Campus Tours-subtree" tabindex="-1" class="svelte-1rsaosx">＋Campus Tours</button>
+  <ul id="Campus Tours-subtree" role="group" aria-label="Campus Tours" class="svelte-1rsaosx"><li role="presentation">
+  <a role="treeitem" href="#for-prospective-students" aria-current="false" tabindex="-1">For Prospective Students</a></li>
+        <li role="presentation">
+  <a role="treeitem" href="#for-alumni" aria-current="false" tabindex="-1">For Alumni</a></li>
+        <li role="presentation">
+  <a role="treeitem" href="#for-visitors" aria-current="false" tabindex="-1">For Visitors</a></li></ul>
+</li></ul>
+</li>
+    
+<li role="presentation" class="svelte-1rsaosx"><button role="treeitem" aria-expanded="false" aria-owns="Admissions-subtree" tabindex="-1" class="svelte-1rsaosx">＋Admissions</button>
+  <ul id="Admissions-subtree" role="group" aria-label="Admissions" class="svelte-1rsaosx"><li role="presentation">
+  <a role="treeitem" href="#apply" aria-current="false" tabindex="-1">Apply</a></li>
+      
+<li role="presentation" class="svelte-1rsaosx"><button role="treeitem" aria-expanded="false" aria-owns="Tuition-subtree" tabindex="-1" class="svelte-1rsaosx">＋Tuition</button>
+  <ul id="Tuition-subtree" role="group" aria-label="Tuition" class="svelte-1rsaosx"><li role="presentation">
+  <a role="treeitem" href="#undergraduate" aria-current="false" tabindex="-1">Undergraduate</a></li>
+        <li role="presentation">
+  <a role="treeitem" href="#graduate" aria-current="false" tabindex="-1">Graduate</a></li>
+        <li role="presentation">
+  <a role="treeitem" href="#professional-schools" aria-current="false" tabindex="-1">Professional Schools</a></li></ul>
+</li></ul>
+</li>
+    <li role="presentation">
+  <a role="treeitem" href="signup" aria-current="false" tabindex="-1">Sign Up</a></li>
+    <li role="presentation">
+  <a role="treeitem" href="#visit" aria-current="false" tabindex="-1">Visit</a></li>
+    <li role="presentation">
+  <a role="treeitem" href="#photo-tour" aria-current="false" tabindex="-1">Photo tour</a></li>
+    <li role="presentation">
+  <a role="treeitem" href="#connect" aria-current="false" tabindex="-1">Connect</a></li>
+    
+<li role="presentation" class="svelte-1rsaosx"><button role="treeitem" aria-expanded="false" aria-owns="Academics-subtree" tabindex="-1" class="svelte-1rsaosx">＋Academics</button>
+  <ul id="Academics-subtree" role="group" aria-label="Academics" class="svelte-1rsaosx"><li role="presentation">
+  <a role="treeitem" href="#colleges-and-schools" aria-current="false" tabindex="-1">Colleges &amp; Schools</a></li>
+      <li role="presentation">
+  <a role="treeitem" href="#programs-of-study" aria-current="false" tabindex="-1">Programs of Study</a></li>
+      <li role="presentation">
+  <a role="treeitem" href="#honors-programs" aria-current="false" tabindex="-1">Honors Programs</a></li>
+      <li role="presentation">
+  <a role="treeitem" href="#course-explorer" aria-current="false" tabindex="-1">Course Explorer</a></li>
+      <li role="presentation">
+  <a role="treeitem" href="#register-for-classes" aria-current="false" tabindex="-1">Register for Classes</a></li>
+      <li role="presentation">
+  <a role="treeitem" href="#academic-calendar" aria-current="false" tabindex="-1">Academic Calendar</a></li>
+      <li role="presentation">
+  <a role="treeitem" href="#transcripts" aria-current="false" tabindex="-1">Transcripts</a></li></ul>
+</li></ul></nav></astro-island></div>
+</div>
+
+
+<div class="KeyMap astro-PW6V3DDI">
+  <div class="astro-CUH44QIC">
+  <h3>
+  <kbd class="astro-GLDFZBT4">
+  Enter
+</kbd>
+
+
+</h3><ul class="astro-OIYCPQPI">
+  <li>
+  開閉可能なら、開閉
+</li>
+<li>
+  開閉不可能なら、デフォルトアクション
+</li>
+</ul>
+
+
+</div>
+
+<div class="astro-CUH44QIC">
+  <h3>
+  <kbd class="astro-GLDFZBT4">
+  Space
+</kbd>
+
+
+</h3><ul class="astro-OIYCPQPI">
+  <li>
+  開閉可能なら、開閉
+</li>
+<li>
+  開閉不可能なら、デフォルトアクション
+</li>
+</ul>
+
+
+</div>
+
+<div class="astro-CUH44QIC">
+  <h3>
+  <kbd class="astro-GLDFZBT4">
+  Tab
+</kbd>
+
+
+</h3><ul class="astro-OIYCPQPI">
+  <li>
+  次のfocus可能な要素に移動（treeに出入り）
+</li>
+<li>
+  Tree内では、最初のtreeitemのみTabでのfocus可能とする
+</li>
+</ul>
+
+
+</div>
+
+<div class="astro-CUH44QIC">
+  <h3>
+  <kbd class="astro-GLDFZBT4">
+  Shift
+</kbd>
+
+
+<kbd class="astro-GLDFZBT4">
+  Tab
+</kbd>
+
+
+</h3><ul class="astro-OIYCPQPI">
+  <li>
+  前のfocus可能な要素に移動（treeに出入り）
+</li>
+</ul>
+
+
+</div>
+
+<div class="astro-CUH44QIC">
+  <h3>
+  <kbd class="astro-GLDFZBT4">
+  ArrowRight
+</kbd>
+
+
+</h3><ul class="astro-OIYCPQPI">
+  <li>
+  閉じているなら開く
+</li>
+<li>
+  開いているなら最初の子に移動
+</li>
+</ul>
+
+
+</div>
+
+<div class="astro-CUH44QIC">
+  <h3>
+  <kbd class="astro-GLDFZBT4">
+  ArrowLeft
+</kbd>
+
+
+</h3><ul class="astro-OIYCPQPI">
+  <li>
+  開いているなら閉じる
+</li>
+<li>
+  開いているsubTree内にいるなら親に移動
+</li>
+</ul>
+
+
+</div>
+
+<div class="astro-CUH44QIC">
+  <h3>
+  <kbd class="astro-GLDFZBT4">
+  ArrowDown
+</kbd>
+
+
+</h3><ul class="astro-OIYCPQPI">
+  <li>
+  見えているtreeitemのうち、直後のtreeitemに移動
+</li>
+</ul>
+
+
+</div>
+
+<div class="astro-CUH44QIC">
+  <h3>
+  <kbd class="astro-GLDFZBT4">
+  ArrowUp
+</kbd>
+
+
+</h3><ul class="astro-OIYCPQPI">
+  <li>
+  見えているtreeitemのうち、直前のtreeitemに移動
+</li>
+</ul>
+
+
+</div>
+
+<div class="astro-CUH44QIC">
+  <h3>
+  <kbd class="astro-GLDFZBT4">
+  Home
+</kbd>
+
+
+</h3><ul class="astro-OIYCPQPI">
+  <li>
+  見えているtreeitemのうち、最初のtreeitemに移動
+</li>
+</ul>
+
+
+</div>
+
+<div class="astro-CUH44QIC">
+  <h3>
+  <kbd class="astro-GLDFZBT4">
+  End
+</kbd>
+
+
+</h3><ul class="astro-OIYCPQPI">
+  <li>
+  見えているtreeitemのうち、最後のtreeitemに移動
+</li>
+</ul>
+
+
+</div>
+
+<div class="astro-CUH44QIC">
+  <h3>
+  <kbd class="astro-GLDFZBT4">
+  *
+</kbd>
+
+
+</h3><ul class="astro-OIYCPQPI">
+  <li>
+  同階層の兄弟をすべて開く
+</li>
+</ul>
+
+
+</div>
+
+<div class="astro-CUH44QIC">
+  <h3>
+  <kbd class="astro-GLDFZBT4">
+  その他の文字
+</kbd>
+
+
+</h3><ul class="astro-OIYCPQPI">
+  <li>
+  その文字から始まるテキストを持つ、次のtreeitemに移動
+</li>
+</ul>
+
+
+</div>
+
+
+</div>
+
+
+  
+</body></html>

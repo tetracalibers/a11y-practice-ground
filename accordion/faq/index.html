@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta name="generator" content="Astro v1.6.10">
+    <title>FAQ Accordion</title>
+  <link rel="stylesheet" href="/a11y-practice-ground/assets/faq.3b49cfc9.css" />
+<link rel="stylesheet" href="/a11y-practice-ground/assets/faq.284c3999.css" />
+<link rel="stylesheet" href="/a11y-practice-ground/assets/faq.3d525bc0.css" /></head>
+  <body>
+    <style>astro-island,astro-slot{display:contents}</style><script>(self.Astro=self.Astro||{}).load=a=>{(async()=>await(await a())())()},window.dispatchEvent(new Event("astro:load"));var l;{const c={0:t=>t,1:t=>JSON.parse(t,o),2:t=>new RegExp(t),3:t=>new Date(t),4:t=>new Map(JSON.parse(t,o)),5:t=>new Set(JSON.parse(t,o)),6:t=>BigInt(t),7:t=>new URL(t),8:t=>new Uint8Array(JSON.parse(t)),9:t=>new Uint16Array(JSON.parse(t)),10:t=>new Uint32Array(JSON.parse(t))},o=(t,s)=>{if(t===""||!Array.isArray(s))return s;const[e,n]=s;return e in c?c[e](n):void 0};customElements.get("astro-island")||customElements.define("astro-island",(l=class extends HTMLElement{constructor(){super(...arguments);this.hydrate=()=>{if(!this.hydrator||this.parentElement&&this.parentElement.closest("astro-island[ssr]"))return;const s=this.querySelectorAll("astro-slot"),e={},n=this.querySelectorAll("template[data-astro-template]");for(const r of n){const i=r.closest(this.tagName);!i||!i.isSameNode(this)||(e[r.getAttribute("data-astro-template")||"default"]=r.innerHTML,r.remove())}for(const r of s){const i=r.closest(this.tagName);!i||!i.isSameNode(this)||(e[r.getAttribute("name")||"default"]=r.innerHTML)}const a=this.hasAttribute("props")?JSON.parse(this.getAttribute("props"),o):{};this.hydrator(this)(this.Component,a,e,{client:this.getAttribute("client")}),this.removeAttribute("ssr"),window.removeEventListener("astro:hydrate",this.hydrate),window.dispatchEvent(new CustomEvent("astro:hydrate"))}}connectedCallback(){!this.hasAttribute("await-children")||this.firstChild?this.childrenConnectedCallback():new MutationObserver((s,e)=>{e.disconnect(),this.childrenConnectedCallback()}).observe(this,{childList:!0})}async childrenConnectedCallback(){window.addEventListener("astro:hydrate",this.hydrate);let s=this.getAttribute("before-hydration-url");s&&await import(s),this.start()}start(){const s=JSON.parse(this.getAttribute("opts")),e=this.getAttribute("client");if(Astro[e]===void 0){window.addEventListener(`astro:${e}`,()=>this.start(),{once:!0});return}Astro[e](async()=>{const n=this.getAttribute("renderer-url"),[a,{default:r}]=await Promise.all([import(this.getAttribute("component-url")),n?import(n):()=>()=>{}]),i=this.getAttribute("component-export")||"default";if(!i.includes("."))this.Component=a[i];else{this.Component=a;for(const d of i.split("."))this.Component=this.Component[d]}return this.hydrator=r,this.hydrate},s,this)}attributeChangedCallback(){this.hydrator&&this.hydrate()}},l.observedAttributes=["props"],l))}</script><astro-island uid="1GFdki" component-url="/a11y-practice-ground/faq-accordion.59127fac.js" component-export="default" renderer-url="/a11y-practice-ground/client.788af3ea.js" props="{}" ssr="" client="load" opts="{&quot;name&quot;:{},&quot;value&quot;:true}" await-children=""><div class="FAQ-List svelte-94ehm3"><ul class="Accordion svelte-hnav0s"><li class="AccordionItem"><section class="AccordionItem-Contents"><h2 class="AccordionItem-Summary"><button class="AccordionItem-Summary__button svelte-1j0g9ug" aria-expanded="false" aria-controls="id-accordion-details-0"><span slot="summary" class="FAQ-Question svelte-94ehm3">お見積もりの目安を教えてください。</span></button></h2>
+    <div id="id-accordion-details-0" class="AccordionItem-Details svelte-1j0g9ug" aria-hidden="true"><div slot="details" class="FAQ-Answer svelte-94ehm3">内容によって変化いたしますのでまずはお問い合わせフォームよりご相談ください。</div></div></section>
+</li><li class="AccordionItem"><section class="AccordionItem-Contents"><h2 class="AccordionItem-Summary"><button class="AccordionItem-Summary__button svelte-1j0g9ug" aria-expanded="false" aria-controls="id-accordion-details-1"><span slot="summary" class="FAQ-Question svelte-94ehm3">地方ですが発注は可能でしょうか</span></button></h2>
+    <div id="id-accordion-details-1" class="AccordionItem-Details svelte-1j0g9ug" aria-hidden="true"><div slot="details" class="FAQ-Answer svelte-94ehm3">可能です。お気軽にご相談ください。</div></div></section>
+</li><li class="AccordionItem"><section class="AccordionItem-Contents"><h2 class="AccordionItem-Summary"><button class="AccordionItem-Summary__button svelte-1j0g9ug" aria-expanded="false" aria-controls="id-accordion-details-2"><span slot="summary" class="FAQ-Question svelte-94ehm3">セミナーやイベントの出演を依頼したいのですが</span></button></h2>
+    <div id="id-accordion-details-2" class="AccordionItem-Details svelte-1j0g9ug" aria-hidden="true"><div slot="details" class="FAQ-Answer svelte-94ehm3">セミナーやイベントの出演を依頼したいのですが</div></div></section>
+</li><li class="AccordionItem"><section class="AccordionItem-Contents"><h2 class="AccordionItem-Summary"><button class="AccordionItem-Summary__button svelte-1j0g9ug" aria-expanded="false" aria-controls="id-accordion-details-3"><span slot="summary" class="FAQ-Question svelte-94ehm3">WEBメディアに記事を書いて頂くことは可能でしょうか？</span></button></h2>
+    <div id="id-accordion-details-3" class="AccordionItem-Details svelte-1j0g9ug" aria-hidden="true"><div slot="details" class="FAQ-Answer svelte-94ehm3">ご相談内容によっては可能です。まずはお気軽にお問い合わせフォームよりご相談ください。</div></div></section>
+</li>
+</ul>
+</div></astro-island>
+<div class="KeyMap astro-PW6V3DDI">
+  <div class="astro-CUH44QIC">
+  <h3>
+  <kbd class="astro-GLDFZBT4">
+  Enter
+</kbd>
+
+
+</h3><ul class="astro-OIYCPQPI">
+  <li>
+  開閉
+</li>
+</ul>
+
+
+</div>
+
+<div class="astro-CUH44QIC">
+  <h3>
+  <kbd class="astro-GLDFZBT4">
+  Space
+</kbd>
+
+
+</h3><ul class="astro-OIYCPQPI">
+  <li>
+  開閉
+</li>
+</ul>
+
+
+</div>
+
+<div class="astro-CUH44QIC">
+  <h3>
+  <kbd class="astro-GLDFZBT4">
+  Tab
+</kbd>
+
+
+</h3><ul class="astro-OIYCPQPI">
+  <li>
+  次のfocus可能な要素に移動
+</li>
+</ul>
+
+
+</div>
+
+<div class="astro-CUH44QIC">
+  <h3>
+  <kbd class="astro-GLDFZBT4">
+  Shift
+</kbd>
+
+
+<kbd class="astro-GLDFZBT4">
+  Tab
+</kbd>
+
+
+</h3><ul class="astro-OIYCPQPI">
+  <li>
+  前のfocus可能な要素に移動
+</li>
+</ul>
+
+
+</div>
+
+<div class="astro-CUH44QIC">
+  <h3>
+  <kbd class="astro-GLDFZBT4">
+  ArrowDown
+</kbd>
+
+
+</h3><ul class="astro-OIYCPQPI">
+  <li>
+  次のAccordionヘッダに移動
+</li>
+<li>
+  最後のヘッダにいる場合は、最初のAccordionヘッダに移動
+</li>
+</ul>
+
+
+</div>
+
+<div class="astro-CUH44QIC">
+  <h3>
+  <kbd class="astro-GLDFZBT4">
+  ArrowUp
+</kbd>
+
+
+</h3><ul class="astro-OIYCPQPI">
+  <li>
+  次のAccordionヘッダに移動
+</li>
+<li>
+  最初のヘッダにいる場合は、最後のAccordionヘッダに移動
+</li>
+</ul>
+
+
+</div>
+
+<div class="astro-CUH44QIC">
+  <h3>
+  <kbd class="astro-GLDFZBT4">
+  Home
+</kbd>
+
+
+</h3><ul class="astro-OIYCPQPI">
+  <li>
+  最初のAccordionヘッダに移動
+</li>
+</ul>
+
+
+</div>
+
+<div class="astro-CUH44QIC">
+  <h3>
+  <kbd class="astro-GLDFZBT4">
+  End
+</kbd>
+
+
+</h3><ul class="astro-OIYCPQPI">
+  <li>
+  最後のAccordionヘッダに移動
+</li>
+</ul>
+
+
+</div>
+
+
+</div>
+
+
+  
+</body></html>

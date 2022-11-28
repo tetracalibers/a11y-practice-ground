@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta name="generator" content="Astro v1.6.10">
+    <title>ColorPicker</title>
+  <link rel="stylesheet" href="/a11y-practice-ground/assets/chrome.c5798f8a.css" />
+<link rel="stylesheet" href="/a11y-practice-ground/assets/faq.3d525bc0.css" /></head>
+  <body>
+    <style>astro-island,astro-slot{display:contents}</style><script>(self.Astro=self.Astro||{}).load=a=>{(async()=>await(await a())())()},window.dispatchEvent(new Event("astro:load"));var l;{const c={0:t=>t,1:t=>JSON.parse(t,o),2:t=>new RegExp(t),3:t=>new Date(t),4:t=>new Map(JSON.parse(t,o)),5:t=>new Set(JSON.parse(t,o)),6:t=>BigInt(t),7:t=>new URL(t),8:t=>new Uint8Array(JSON.parse(t)),9:t=>new Uint16Array(JSON.parse(t)),10:t=>new Uint32Array(JSON.parse(t))},o=(t,s)=>{if(t===""||!Array.isArray(s))return s;const[e,n]=s;return e in c?c[e](n):void 0};customElements.get("astro-island")||customElements.define("astro-island",(l=class extends HTMLElement{constructor(){super(...arguments);this.hydrate=()=>{if(!this.hydrator||this.parentElement&&this.parentElement.closest("astro-island[ssr]"))return;const s=this.querySelectorAll("astro-slot"),e={},n=this.querySelectorAll("template[data-astro-template]");for(const r of n){const i=r.closest(this.tagName);!i||!i.isSameNode(this)||(e[r.getAttribute("data-astro-template")||"default"]=r.innerHTML,r.remove())}for(const r of s){const i=r.closest(this.tagName);!i||!i.isSameNode(this)||(e[r.getAttribute("name")||"default"]=r.innerHTML)}const a=this.hasAttribute("props")?JSON.parse(this.getAttribute("props"),o):{};this.hydrator(this)(this.Component,a,e,{client:this.getAttribute("client")}),this.removeAttribute("ssr"),window.removeEventListener("astro:hydrate",this.hydrate),window.dispatchEvent(new CustomEvent("astro:hydrate"))}}connectedCallback(){!this.hasAttribute("await-children")||this.firstChild?this.childrenConnectedCallback():new MutationObserver((s,e)=>{e.disconnect(),this.childrenConnectedCallback()}).observe(this,{childList:!0})}async childrenConnectedCallback(){window.addEventListener("astro:hydrate",this.hydrate);let s=this.getAttribute("before-hydration-url");s&&await import(s),this.start()}start(){const s=JSON.parse(this.getAttribute("opts")),e=this.getAttribute("client");if(Astro[e]===void 0){window.addEventListener(`astro:${e}`,()=>this.start(),{once:!0});return}Astro[e](async()=>{const n=this.getAttribute("renderer-url"),[a,{default:r}]=await Promise.all([import(this.getAttribute("component-url")),n?import(n):()=>()=>{}]),i=this.getAttribute("component-export")||"default";if(!i.includes("."))this.Component=a[i];else{this.Component=a;for(const d of i.split("."))this.Component=this.Component[d]}return this.hydrator=r,this.hydrate},s,this)}attributeChangedCallback(){this.hydrator&&this.hydrate()}},l.observedAttributes=["props"],l))}</script><astro-island uid="Z2hCgeA" component-url="/a11y-practice-ground/index.d9c73c83.js" component-export="default" renderer-url="/a11y-practice-ground/client.788af3ea.js" props="{}" ssr="" client="load" opts="{&quot;name&quot;:{},&quot;value&quot;:true}" await-children=""><div class="preview-container svelte-1e70cuc" style="--bg: #ECC5FB;"><div class="ColorPicker svelte-1k9apmf"><div class="ly-vertical svelte-1k9apmf">
+<div class="ColorPicker-xy-picker-plane svelte-t25hyt" role="application" aria-label="Saturation and brightness" style="--bg-color: hsl(283.3333333333333, 100%, 50%);"><div class="visually-hidden">Use up, down, left and right arrow keys to select.
+  </div>
+  <button type="button" class="ColorPicker-xy-picker-plane__indicator svelte-t25hyt" style="--preview-color: rgb(236, 197, 251); --pos-x: 21.51394422310757%; --pos-y: 1.5686274509804008%;"></button>
+</div>
+    
+<div class="ColorPicker-slider svelte-18rsstn" role="slider" aria-valuenow="283.3333333333333" aria-valuemin="0" aria-valuemax="360" aria-label="hue" style="--gradient: linear-gradient(to right, #ff0000, #ffff00, #00ff00, #00ffff, #0000ff, #ff00ff, #ff0000);"><button type="button" class="ColorPicker-slider__indicator svelte-18rsstn" style="--preview-color: rgb(236, 197, 251); --pos-x: 78.7037037037037%;"></button>
+</div>
+    
+<div class="ColorPicker-slider svelte-18rsstn" role="slider" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" aria-label="opacity" style="--gradient: linear-gradient(to left, rgba(236, 197, 251, 1), rgba(236, 197, 251, 0));"><button type="button" class="ColorPicker-slider__indicator svelte-18rsstn" style="--preview-color: rgb(236, 197, 251); --pos-x: 100%;"></button>
+</div></div>
+  <div class="ly-switch svelte-1k9apmf"><div class="svelte-1k9apmf"><label class="ColorPicker__input-label svelte-1k9apmf" for="id-ColorPicker__input--hex">Hex</label>
+      <input type="text" id="id-ColorPicker__input--hex" class="ColorPicker__input --hex svelte-1k9apmf" placeholder="hex" value="#ECC5FB"></div>
+    <div class="ly-horizontal svelte-1k9apmf"><div><label class="ColorPicker__input-label svelte-1k9apmf" for="id-ColorPicker__input--rgba-r">R</label>
+        <input type="text" id="id-ColorPicker__input--rgba-r" class="ColorPicker__input --rgba svelte-1k9apmf" placeholder="R" value="236" inputmode="numeric" pattern="[0-9]*"></div>
+      <div><label class="ColorPicker__input-label svelte-1k9apmf" for="id-ColorPicker__input--rgba-g">G</label>
+        <input type="text" id="id-ColorPicker__input--rgba-g" class="ColorPicker__input --rgba svelte-1k9apmf" placeholder="G" value="197" inputmode="numeric" pattern="[0-9]*"></div>
+      <div><label class="ColorPicker__input-label svelte-1k9apmf" for="id-ColorPicker__input--rgba-b">B</label>
+        <input type="text" id="id-ColorPicker__input--rgba-b" class="ColorPicker__input --rgba svelte-1k9apmf" placeholder="B" value="251" inputmode="numeric" pattern="[0-9]*"></div>
+      <div><label class="ColorPicker__input-label svelte-1k9apmf" for="id-ColorPicker__input--rgba-a">A(%)</label>
+        <input type="text" id="id-ColorPicker__input--rgba-a" class="ColorPicker__input --rgba svelte-1k9apmf" placeholder="A" value="100" inputmode="numeric" pattern="[0-9]*"></div></div></div>
+</div>
+</div></astro-island>
+  
+</body></html>

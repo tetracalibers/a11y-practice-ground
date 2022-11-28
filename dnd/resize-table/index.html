@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta name="generator" content="Astro v1.6.10">
+    <title>Resizable Table</title>
+  <link rel="stylesheet" href="/a11y-practice-ground/assets/resize-table.0a81916b.css" />
+<link rel="stylesheet" href="/a11y-practice-ground/assets/faq.3b49cfc9.css" />
+<link rel="stylesheet" href="/a11y-practice-ground/assets/faq.3d525bc0.css" /></head>
+  <body>
+    <style>astro-island,astro-slot{display:contents}</style><script>(self.Astro=self.Astro||{}).load=a=>{(async()=>await(await a())())()},window.dispatchEvent(new Event("astro:load"));var l;{const c={0:t=>t,1:t=>JSON.parse(t,o),2:t=>new RegExp(t),3:t=>new Date(t),4:t=>new Map(JSON.parse(t,o)),5:t=>new Set(JSON.parse(t,o)),6:t=>BigInt(t),7:t=>new URL(t),8:t=>new Uint8Array(JSON.parse(t)),9:t=>new Uint16Array(JSON.parse(t)),10:t=>new Uint32Array(JSON.parse(t))},o=(t,s)=>{if(t===""||!Array.isArray(s))return s;const[e,n]=s;return e in c?c[e](n):void 0};customElements.get("astro-island")||customElements.define("astro-island",(l=class extends HTMLElement{constructor(){super(...arguments);this.hydrate=()=>{if(!this.hydrator||this.parentElement&&this.parentElement.closest("astro-island[ssr]"))return;const s=this.querySelectorAll("astro-slot"),e={},n=this.querySelectorAll("template[data-astro-template]");for(const r of n){const i=r.closest(this.tagName);!i||!i.isSameNode(this)||(e[r.getAttribute("data-astro-template")||"default"]=r.innerHTML,r.remove())}for(const r of s){const i=r.closest(this.tagName);!i||!i.isSameNode(this)||(e[r.getAttribute("name")||"default"]=r.innerHTML)}const a=this.hasAttribute("props")?JSON.parse(this.getAttribute("props"),o):{};this.hydrator(this)(this.Component,a,e,{client:this.getAttribute("client")}),this.removeAttribute("ssr"),window.removeEventListener("astro:hydrate",this.hydrate),window.dispatchEvent(new CustomEvent("astro:hydrate"))}}connectedCallback(){!this.hasAttribute("await-children")||this.firstChild?this.childrenConnectedCallback():new MutationObserver((s,e)=>{e.disconnect(),this.childrenConnectedCallback()}).observe(this,{childList:!0})}async childrenConnectedCallback(){window.addEventListener("astro:hydrate",this.hydrate);let s=this.getAttribute("before-hydration-url");s&&await import(s),this.start()}start(){const s=JSON.parse(this.getAttribute("opts")),e=this.getAttribute("client");if(Astro[e]===void 0){window.addEventListener(`astro:${e}`,()=>this.start(),{once:!0});return}Astro[e](async()=>{const n=this.getAttribute("renderer-url"),[a,{default:r}]=await Promise.all([import(this.getAttribute("component-url")),n?import(n):()=>()=>{}]),i=this.getAttribute("component-export")||"default";if(!i.includes("."))this.Component=a[i];else{this.Component=a;for(const d of i.split("."))this.Component=this.Component[d]}return this.hydrator=r,this.hydrate},s,this)}attributeChangedCallback(){this.hydrator&&this.hydrate()}},l.observedAttributes=["props"],l))}</script><astro-island uid="ZhLvIy" component-url="/a11y-practice-ground/index.b1198557.js" component-export="default" renderer-url="/a11y-practice-ground/client.788af3ea.js" props="{}" ssr="" client="load" opts="{&quot;name&quot;:{},&quot;value&quot;:true}" await-children="">
+<table class="svelte-6k8l09"><thead class="svelte-6k8l09"><tr class="svelte-6k8l09"><th id="id-ResizableTable-header__column--0" class="svelte-6k8l09"><div class="svelte-6k8l09">artist</div>
+          <hr class="resize-handle svelte-6k8l09" tabindex="0" aria-orientation="vertical" aria-valuemin="150" aria-valuemax="150" aria-label="artist列の幅変更コントロール" aria-controls="id-ResizableTable-header__column--0 id-ResizableTable-data__column--0" style="--height: 0px;">
+        </th><th id="id-ResizableTable-header__column--1" class="svelte-6k8l09"><div class="svelte-6k8l09">title</div>
+          <hr class="resize-handle svelte-6k8l09" tabindex="0" aria-orientation="vertical" aria-valuemin="150" aria-valuemax="150" aria-label="title列の幅変更コントロール" aria-controls="id-ResizableTable-header__column--1 id-ResizableTable-data__column--1" style="--height: 0px;">
+        </th><th id="id-ResizableTable-header__column--2" class="svelte-6k8l09"><div class="svelte-6k8l09">lyrics</div>
+          
+        </th></tr></thead>
+  <tbody class="svelte-6k8l09"><tr class="svelte-6k8l09"><td id="id-ResizableTable-data__column--0" class="svelte-6k8l09"><div class="svelte-6k8l09">UNISON SQUARE GARDEN</div></td><td id="id-ResizableTable-data__column--1" class="svelte-6k8l09"><div class="svelte-6k8l09">クローバー</div></td><td id="id-ResizableTable-data__column--2" class="svelte-6k8l09"><div class="svelte-6k8l09">アルキメデスが恋に落ちた 11月の約束の日</div></td>
+      </tr><tr class="svelte-6k8l09"><td id="id-ResizableTable-data__column--0" class="svelte-6k8l09"><div class="svelte-6k8l09">UNISON SQUARE GARDEN</div></td><td id="id-ResizableTable-data__column--1" class="svelte-6k8l09"><div class="svelte-6k8l09">お人好しカメレオン</div></td><td id="id-ResizableTable-data__column--2" class="svelte-6k8l09"><div class="svelte-6k8l09">お人好しカメレオンじゃないだろ 君だけのために君はいるんだよ</div></td>
+      </tr><tr class="svelte-6k8l09"><td id="id-ResizableTable-data__column--0" class="svelte-6k8l09"><div class="svelte-6k8l09">UNISON SQUARE GARDEN</div></td><td id="id-ResizableTable-data__column--1" class="svelte-6k8l09"><div class="svelte-6k8l09">flat song</div></td><td id="id-ResizableTable-data__column--2" class="svelte-6k8l09"><div class="svelte-6k8l09">伝えることから始まれるような気がしてさ</div></td>
+      </tr><tr class="svelte-6k8l09"><td id="id-ResizableTable-data__column--0" class="svelte-6k8l09"><div class="svelte-6k8l09">UNISON SQUARE GARDEN</div></td><td id="id-ResizableTable-data__column--1" class="svelte-6k8l09"><div class="svelte-6k8l09">シャンデリア・ワルツ</div></td><td id="id-ResizableTable-data__column--2" class="svelte-6k8l09"><div class="svelte-6k8l09">わからずやには 見えない魔法をかけたよ</div></td>
+      </tr><tr class="svelte-6k8l09"><td id="id-ResizableTable-data__column--0" class="svelte-6k8l09"><div class="svelte-6k8l09">UNISON SQUARE GARDEN</div></td><td id="id-ResizableTable-data__column--1" class="svelte-6k8l09"><div class="svelte-6k8l09">春が来てぼくら</div></td><td id="id-ResizableTable-data__column--2" class="svelte-6k8l09"><div class="svelte-6k8l09">新しいと同じ数これまでの大切が続くように、なんて</div></td>
+      </tr><tr class="svelte-6k8l09"><td id="id-ResizableTable-data__column--0" class="svelte-6k8l09"><div class="svelte-6k8l09">SEKAI NO OWARI</div></td><td id="id-ResizableTable-data__column--1" class="svelte-6k8l09"><div class="svelte-6k8l09">Dragon Night</div></td><td id="id-ResizableTable-data__column--2" class="svelte-6k8l09"><div class="svelte-6k8l09">だけど僕の嫌いな「彼」も彼なりの理由があると思うんだ</div></td>
+      </tr><tr class="svelte-6k8l09"><td id="id-ResizableTable-data__column--0" class="svelte-6k8l09"><div class="svelte-6k8l09">JUDY AND MARY</div></td><td id="id-ResizableTable-data__column--1" class="svelte-6k8l09"><div class="svelte-6k8l09">あなたは生きている</div></td><td id="id-ResizableTable-data__column--2" class="svelte-6k8l09"><div class="svelte-6k8l09">深すぎた傷跡が消えないといいな</div></td>
+      </tr><tr class="svelte-6k8l09"><td id="id-ResizableTable-data__column--0" class="svelte-6k8l09"><div class="svelte-6k8l09">JUDY AND MARY</div></td><td id="id-ResizableTable-data__column--1" class="svelte-6k8l09"><div class="svelte-6k8l09">KYOTO</div></td><td id="id-ResizableTable-data__column--2" class="svelte-6k8l09"><div class="svelte-6k8l09">深く眠る前に あなたの声を 忘れないように</div></td>
+      </tr><tr class="svelte-6k8l09"><td id="id-ResizableTable-data__column--0" class="svelte-6k8l09"><div class="svelte-6k8l09">BUMP OF CHICKEN</div></td><td id="id-ResizableTable-data__column--1" class="svelte-6k8l09"><div class="svelte-6k8l09">虹を待つ人</div></td><td id="id-ResizableTable-data__column--2" class="svelte-6k8l09"><div class="svelte-6k8l09">見えない壁が見えた時には その先にいる人が見える</div></td>
+      </tr><tr class="svelte-6k8l09"><td id="id-ResizableTable-data__column--0" class="svelte-6k8l09"><div class="svelte-6k8l09">BUMP OF CHICKEN</div></td><td id="id-ResizableTable-data__column--1" class="svelte-6k8l09"><div class="svelte-6k8l09">supernova</div></td><td id="id-ResizableTable-data__column--2" class="svelte-6k8l09"><div class="svelte-6k8l09">延べられた手を拒んだ その時に 大きな地震が起こるかもしれない</div></td>
+      </tr><tr class="svelte-6k8l09"><td id="id-ResizableTable-data__column--0" class="svelte-6k8l09"><div class="svelte-6k8l09">XIIX</div></td><td id="id-ResizableTable-data__column--1" class="svelte-6k8l09"><div class="svelte-6k8l09">ユースレス・シンフォニー</div></td><td id="id-ResizableTable-data__column--2" class="svelte-6k8l09"><div class="svelte-6k8l09">誰の言うこともわかっちゃいない それでも全てを手にしてきた</div></td>
+      </tr><tr class="svelte-6k8l09"><td id="id-ResizableTable-data__column--0" class="svelte-6k8l09"><div class="svelte-6k8l09">XIIX</div></td><td id="id-ResizableTable-data__column--1" class="svelte-6k8l09"><div class="svelte-6k8l09">like the rain</div></td><td id="id-ResizableTable-data__column--2" class="svelte-6k8l09"><div class="svelte-6k8l09">あなたの全てに染まる気はないのに</div></td>
+      </tr></tbody>
+</table></astro-island>
+<div class="KeyMap astro-PW6V3DDI">
+  <div class="astro-CUH44QIC">
+  <h3>
+  <kbd class="astro-GLDFZBT4">
+  ArrowLeft
+</kbd>
+
+
+</h3><ul class="astro-OIYCPQPI">
+  <li>
+  （縦区切り線にfocus時）幅を狭める
+</li>
+</ul>
+
+
+</div>
+
+<div class="astro-CUH44QIC">
+  <h3>
+  <kbd class="astro-GLDFZBT4">
+  ArrowRight
+</kbd>
+
+
+</h3><ul class="astro-OIYCPQPI">
+  <li>
+  （縦区切り線にfocus時）幅を広げる
+</li>
+</ul>
+
+
+</div>
+
+<div class="astro-CUH44QIC">
+  <h3>
+  <kbd class="astro-GLDFZBT4">
+  Home
+</kbd>
+
+
+</h3><ul class="astro-OIYCPQPI">
+  <li>
+  （縦区切り線にfocus時）最小幅にする
+</li>
+</ul>
+
+
+</div>
+
+<div class="astro-CUH44QIC">
+  <h3>
+  <kbd class="astro-GLDFZBT4">
+  End
+</kbd>
+
+
+</h3><ul class="astro-OIYCPQPI">
+  <li>
+  （縦区切り線にfocus時）最大幅にする
+</li>
+</ul>
+
+
+</div>
+
+
+</div>
+
+
+  
+</body></html>
